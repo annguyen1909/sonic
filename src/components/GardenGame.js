@@ -95,7 +95,7 @@ export class GardenGame {
 
     if (plot.stage === 3) {
       const isVi = this.lang === 'vi';
-      speak(isVi ? `${plot.fruit.name} chín rồi!` : `${plot.fruit.nameEn} is ready!`, this.lang);
+      speak(isVi ? `${plot.fruit.name} chín rồi!` : `${plot.fruit.nameEn} ready!`, this.lang);
     }
   }
 

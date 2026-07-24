@@ -127,7 +127,7 @@ export class QuizGame {
       confetti({ particleCount: 70, spread: 80, origin: { y: 0.6 } });
 
       const fruitName = isVi ? fruit.name : fruit.nameEn;
-      speak(isVi ? `Chính xác! Đây là ${fruitName}.` : `Great job! This is ${fruitName}.`, this.lang);
+      speak(isVi ? `Đúng rồi! ${fruitName}` : `Yes! ${fruitName}`, this.lang);
 
       feedbackEl.className = 'feedback-area feedback-success animate-bounce';
       feedbackEl.innerHTML = `

@@ -1,6 +1,7 @@
 import { FRUITS, SORT_CATEGORIES } from '../data/fruits.js';
 import { FRUIT_SVGS } from '../utils/icons.js';
 import { playSuccess, playError, playClick, playVictory, speak } from '../utils/audio.js';
+import { attachRoundedDragGhost } from '../utils/dragGhost.js';
 import confetti from 'canvas-confetti';
 
 const SORT_GROUPS = ['red', 'yellow', 'green'];
@@ -100,6 +101,7 @@ export class SortingGame {
         const idx = parseInt(item.getAttribute('data-index'), 10);
         this.activeFruitIndex = idx;
         e.dataTransfer.setData('text/plain', String(idx));
+        attachRoundedDragGhost(e, item);
       });
     });
 
@@ -140,7 +142,7 @@ export class SortingGame {
       playError();
       basketEl.classList.add('shake-red');
       setTimeout(() => basketEl.classList.remove('shake-red'), 500);
-      speak(isVi ? 'Sai màu rồi!' : 'Wrong color!', this.lang);
+      speak(isVi ? 'Sai rồi!' : 'Oops!', this.lang);
       return;
     }
 

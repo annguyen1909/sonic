@@ -237,15 +237,33 @@ export function playWaterSound() {
   }
 }
 
+function pickKidVoice(langCode) {
+  const voices = window.speechSynthesis.getVoices();
+  if (!voices.length) return null;
+  const prefix = langCode.toLowerCase().slice(0, 2);
+  const langVoices = voices.filter((v) => v.lang.toLowerCase().startsWith(prefix));
+  const pool = langVoices.length ? langVoices : voices;
+  return (
+    pool.find((v) => /female|woman|girl|nữ|linh|my/i.test(`${v.name} ${v.voiceURI}`)) ||
+    pool.find((v) => !/male|man|boy|nam/i.test(`${v.name} ${v.voiceURI}`)) ||
+    pool[0] ||
+    null
+  );
+}
+
 export function speak(text, lang = 'vi-VN') {
   if (!soundEnabled) return;
   if (!('speechSynthesis' in window)) return;
 
   window.speechSynthesis.cancel();
   const utterance = new SpeechSynthesisUtterance(text);
-  utterance.lang = lang === 'en' ? 'en-US' : 'vi-VN';
-  utterance.rate = 0.9;
-  utterance.pitch = 1.1;
+  const langCode = lang === 'en' ? 'en-US' : 'vi-VN';
+  utterance.lang = langCode;
+  utterance.rate = 0.75;
+  utterance.pitch = 1.4;
+
+  const voice = pickKidVoice(langCode);
+  if (voice) utterance.voice = voice;
 
   window.speechSynthesis.speak(utterance);
 }
