@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Thế Giới Trái Cây</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Be+Vietnam+Pro:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <div class="app-layout">
+    <header class="app-header">
+      <div class="brand">
+        <span class="brand-logo" id="brand-svg-logo"></span>
+        <div class="brand-titles">
+          <h1 id="app-title-text">Thế Giới Trái Cây</h1>
+          <span class="brand-subtitle" id="app-subtitle-text">Quầy nước ép vui</span>
+        </div>
+      </div>
+
+      <div class="header-controls">
+        <div class="star-badge" id="global-star-badge" title="Sao">
+          <span id="star-icon-container"></span>
+          <span id="global-star-count">0</span>
+        </div>
+        <button class="btn-icon" id="btn-toggle-sound" type="button" title="Âm thanh"></button>
+        <button class="btn-icon" id="btn-toggle-lang" type="button" title="Ngôn ngữ">
+          <span class="lang-text-badge">VI</span>
+        </button>
+      </div>
+    </header>
+
+    <main class="app-main" id="game-view-container"></main>
+
+    <nav class="game-dock" aria-label="Games">
+      <button class="dock-tab active" data-mode="match" type="button">
+        <span class="tab-icon-svg" id="tab-icon-match"></span>
+        <span class="tab-label" data-key="nav_match">Ghép</span>
+      </button>
+      <button class="dock-tab" data-mode="sorting" type="button">
+        <span class="tab-icon-svg" id="tab-icon-sorting"></span>
+        <span class="tab-label" data-key="nav_sorting">Xếp</span>
+      </button>
+      <!-- ponytail: Ép + Vườn tạm ẩn; bật lại bằng cách bỏ hidden + bỏ DISABLED_MODES trong main.js -->
+      <button class="dock-tab" data-mode="blender" type="button" hidden>
+        <span class="tab-icon-svg" id="tab-icon-blender"></span>
+        <span class="tab-label" data-key="nav_blender">Ép</span>
+      </button>
+      <button class="dock-tab" data-mode="garden" type="button" hidden>
+        <span class="tab-icon-svg" id="tab-icon-garden"></span>
+        <span class="tab-label" data-key="nav_garden">Vườn</span>
+      </button>
+    </nav>
+  </div>
+
+  <div id="sticker-toast" class="sticker-toast hidden" aria-live="polite"></div>
+
+  <script type="module" src="./main.js"></script>
+</body>
+</html>
