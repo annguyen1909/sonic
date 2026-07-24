@@ -237,18 +237,23 @@ export function playWaterSound() {
   }
 }
 
+function voiceScore(voice) {
+  const label = `${voice.name} ${voice.voiceURI}`.toLowerCase();
+  let score = 0;
+  if (/google|microsoft|enhanced|neural|premium|natural/i.test(label)) score += 5;
+  if (/linh|female|woman|girl|nữ|\bmy\b|samantha|karen|zira/i.test(label)) score += 3;
+  if (voice.localService) score += 1;
+  if (/male|man|boy|nam|david|mark|fred/i.test(label)) score -= 4;
+  return score;
+}
+
 function pickKidVoice(langCode) {
   const voices = window.speechSynthesis.getVoices();
   if (!voices.length) return null;
   const prefix = langCode.toLowerCase().slice(0, 2);
   const langVoices = voices.filter((v) => v.lang.toLowerCase().startsWith(prefix));
   const pool = langVoices.length ? langVoices : voices;
-  return (
-    pool.find((v) => /female|woman|girl|nữ|linh|my/i.test(`${v.name} ${v.voiceURI}`)) ||
-    pool.find((v) => !/male|man|boy|nam/i.test(`${v.name} ${v.voiceURI}`)) ||
-    pool[0] ||
-    null
-  );
+  return [...pool].sort((a, b) => voiceScore(b) - voiceScore(a))[0] || null;
 }
 
 export function speak(text, lang = 'vi-VN') {
@@ -259,8 +264,9 @@ export function speak(text, lang = 'vi-VN') {
   const utterance = new SpeechSynthesisUtterance(text);
   const langCode = lang === 'en' ? 'en-US' : 'vi-VN';
   utterance.lang = langCode;
-  utterance.rate = 0.75;
-  utterance.pitch = 1.4;
+  // Warm toddler pace — avoid high pitch (sounds dry/robotic on system voices)
+  utterance.rate = 0.9;
+  utterance.pitch = 1.1;
 
   const voice = pickKidVoice(langCode);
   if (voice) utterance.voice = voice;

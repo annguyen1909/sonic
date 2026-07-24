@@ -1,7 +1,7 @@
 export const FRUITS = [
   {
     id: 'watermelon',
-    name: 'Dưa hấu',
+    name: 'Quả Dưa hấu',
     nameEn: 'Watermelon',
     color: '#ff4d6d',
     colorGroup: 'red',
@@ -16,7 +16,7 @@ export const FRUITS = [
   },
   {
     id: 'lemon',
-    name: 'Chanh',
+    name: 'Quả Chanh',
     nameEn: 'Lemon',
     color: '#f4d03f',
     colorGroup: 'yellow',
@@ -31,7 +31,7 @@ export const FRUITS = [
   },
   {
     id: 'apple',
-    name: 'Táo xanh',
+    name: 'Quả Táo',
     nameEn: 'Green Apple',
     color: '#52b788',
     colorGroup: 'green',
@@ -46,7 +46,7 @@ export const FRUITS = [
   },
   {
     id: 'grape',
-    name: 'Nho tím',
+    name: 'Quả Nho',
     nameEn: 'Grapes',
     color: '#7209b7',
     colorGroup: 'purple',
@@ -61,7 +61,7 @@ export const FRUITS = [
   },
   {
     id: 'strawberry',
-    name: 'Dâu tây',
+    name: 'Quả Dâu tây',
     nameEn: 'Strawberry',
     color: '#e63946',
     colorGroup: 'red',
@@ -76,7 +76,7 @@ export const FRUITS = [
   },
   {
     id: 'mango',
-    name: 'Xoài vàng',
+    name: 'Quả Xoài',
     nameEn: 'Mango',
     color: '#fb8500',
     colorGroup: 'yellow',
@@ -121,7 +121,7 @@ export const FRUITS = [
   },
   {
     id: 'pineapple',
-    name: 'Dứa / Thơm',
+    name: 'Quả Dứa',
     nameEn: 'Pineapple',
     color: '#e0a96d',
     colorGroup: 'yellow',
@@ -166,7 +166,7 @@ export const FRUITS = [
   },
   {
     id: 'durian',
-    name: 'Sầu riêng',
+    name: 'Quả Sầu diêng',
     nameEn: 'Durian',
     color: '#90be6d',
     colorGroup: 'green',

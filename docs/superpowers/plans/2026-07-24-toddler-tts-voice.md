@@ -104,7 +104,7 @@ speak(isVi ? `Đúng rồi! ${fruitName}` : `Yes! ${fruitName}`, this.lang);
 
 ### Task 3: Commit
 
-- [ ] **Step 1: Commit voice + phrase changes only** (do not include unrelated dragGhost / CSS work)
+- [x] **Step 1: Commit voice + phrase changes only** (do not include unrelated dragGhost / CSS work)
 
 ```bash
 git add src/utils/audio.js src/components/MatchGame.js src/components/SortingGame.js src/components/GardenGame.js src/components/QuizGame.js docs/superpowers/plans/2026-07-24-toddler-tts-voice.md

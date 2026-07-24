@@ -1,7 +1,7 @@
 import { FRUITS } from '../data/fruits.js';
 import { FRUIT_SVGS, UI_ICONS } from '../utils/icons.js';
 import { playSuccess, playError, playClick, playVictory, speak } from '../utils/audio.js';
-import { attachRoundedDragGhost } from '../utils/dragGhost.js';
+import { prepareRoundedDragImage, setRoundedDragImage } from '../utils/dragPreview.js';
 import confetti from 'canvas-confetti';
 
 export class MatchGame {
@@ -85,6 +85,8 @@ export class MatchGame {
   bindEvents() {
     const trayItems = this.container.querySelectorAll('.match-fruit:not(.placed-away)');
     trayItems.forEach((el) => {
+      prepareRoundedDragImage(el);
+
       el.addEventListener('click', () => {
         const id = el.getAttribute('data-tray-id');
         playClick();
@@ -97,7 +99,7 @@ export class MatchGame {
         this.selectedTrayId = id;
         e.dataTransfer.setData('text/plain', id);
         e.dataTransfer.effectAllowed = 'move';
-        attachRoundedDragGhost(e, el);
+        setRoundedDragImage(e, el);
       });
     });
 
@@ -144,7 +146,7 @@ export class MatchGame {
       playError();
       slotEl.classList.add('shake-red');
       setTimeout(() => slotEl.classList.remove('shake-red'), 500);
-      speak(isVi ? 'Sai rồi!' : 'Oops!', this.lang);
+      speak(isVi ? 'Sonic Đù!' : 'Not that one!', this.lang);
       return;
     }
 
