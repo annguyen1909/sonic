@@ -1,10 +1,27 @@
 export const FRUITS = [
   {
+    id: 'banana',
+    name: 'Quả Chuối',
+    nameEn: 'Banana',
+    color: '#ffc107',
+    colorGroup: 'yellow',
+    image: '/images/fruits/banana.jpg',
+    riddle: 'Quả gì cong cong trăng khuyết, vỏ vàng thơm lừng, bé bóc vỏ ăn ngon lành?',
+    riddleEn: 'Yellow and curved like a crescent moon, peel it open for a sweet healthy snack?',
+    options: ['Quả Chuối', 'Xoài', 'Cam', 'Dưa hấu'],
+    optionsEn: ['Banana', 'Mango', 'Orange', 'Watermelon'],
+    spelling: ['C', 'H', 'U', 'Ố', 'I'],
+    spellingEn: ['B', 'A', 'N', 'A', 'N', 'A'],
+    funFact: 'Chuối chứa nhiều Kali và năng lượng tự nhiên giúp bé chạy nhảy vui chơi cả ngày.',
+    funFactEn: 'Bananas give kids lots of energy and potassium to run and play happily.'
+  },
+  {
     id: 'watermelon',
     name: 'Quả Dưa hấu',
     nameEn: 'Watermelon',
     color: '#ff4d6d',
     colorGroup: 'red',
+    image: '/images/fruits/watermelon.jpg',
     riddle: 'Quả gì vỏ xanh lét, ruột đỏ mọng hạt đen, ăn vào mát lạnh cả người?',
     riddleEn: 'Green outside, juicy red inside with black seeds, super refreshing in summer?',
     options: ['Dưa hấu', 'Dâu tây', 'Táo đỏ', 'Xoài'],
@@ -20,6 +37,7 @@ export const FRUITS = [
     nameEn: 'Lemon',
     color: '#f4d03f',
     colorGroup: 'yellow',
+    image: '/images/fruits/lemon.jpg',
     riddle: 'Quả gì chua chua, vỏ vàng tươi, pha nước mát giải khát?',
     riddleEn: 'Sour and yellow, great in lemonade on a hot day?',
     options: ['Chanh', 'Cam', 'Chuối', 'Xoài'],
@@ -32,32 +50,18 @@ export const FRUITS = [
   {
     id: 'apple',
     name: 'Quả Táo',
-    nameEn: 'Green Apple',
-    color: '#52b788',
-    colorGroup: 'green',
-    riddle: 'Quả gì tròn xinh, cắn vào giòn rụm, có loại màu đỏ và loại màu xanh?',
-    riddleEn: 'Crispy and sweet, round fruit that comes in red and green colors?',
-    options: ['Táo xanh', 'Ổi', 'Bơ', 'Lê'],
-    optionsEn: ['Green Apple', 'Guava', 'Avocado', 'Pear'],
+    nameEn: 'Apple',
+    color: '#e63946',
+    colorGroup: 'red',
+    image: '/images/fruits/apple.jpg',
+    riddle: 'Quả gì tròn xinh màu đỏ tươi, cắn vào giòn ngọt mọng nước?',
+    riddleEn: 'Crispy, sweet, shiny red fruit with a green leaf on top?',
+    options: ['Quả Táo', 'Ổi', 'Bơ', 'Lê'],
+    optionsEn: ['Apple', 'Guava', 'Avocado', 'Pear'],
     spelling: ['T', 'Á', 'O'],
     spellingEn: ['A', 'P', 'P', 'L', 'E'],
     funFact: 'Mỗi ngày ăn một quả táo giúp răng chắc khỏe và bổ sung nhiều Vitamin.',
     funFactEn: 'An apple a day keeps the doctor away and makes your teeth clean and strong.'
-  },
-  {
-    id: 'grape',
-    name: 'Quả Nho',
-    nameEn: 'Grapes',
-    color: '#7209b7',
-    colorGroup: 'purple',
-    riddle: 'Quả gì kết thành từng chùm tròn xoe, ngọt lịm màu tím đậm?',
-    riddleEn: 'Small round purple fruits that grow in big bunches on vines?',
-    options: ['Nho tím', 'Măng cụt', 'Việt quất', 'Mận'],
-    optionsEn: ['Grapes', 'Mangosteen', 'Blueberry', 'Plum'],
-    spelling: ['N', 'H', 'O'],
-    spellingEn: ['G', 'R', 'A', 'P', 'E', 'S'],
-    funFact: 'Nho giúp mắt bé sáng long lanh và bổ sung nhiều chất chống oxy hóa bảo vệ sức khỏe.',
-    funFactEn: 'Grapes are packed with antioxidants that keep your eyes sharp and bright.'
   },
   {
     id: 'strawberry',
@@ -65,6 +69,7 @@ export const FRUITS = [
     nameEn: 'Strawberry',
     color: '#e63946',
     colorGroup: 'red',
+    image: '/images/fruits/strawberry.jpg',
     riddle: 'Quả gì nho nhỏ màu đỏ tươi, bên ngoài mặc áo nhiều hạt ti ti, vị chua chua ngọt ngọt?',
     riddleEn: 'Heart-shaped red fruit covered with tiny seeds on the outside?',
     options: ['Dâu tây', 'Cà chua', 'Ớt ngọt', 'Quả mâm xôi'],
@@ -75,11 +80,28 @@ export const FRUITS = [
     funFactEn: 'Strawberries are the only fruit that wear their seeds on the outside.'
   },
   {
+    id: 'grape',
+    name: 'Quả Nho',
+    nameEn: 'Grapes',
+    color: '#7209b7',
+    colorGroup: 'purple',
+    image: '/images/fruits/grape.jpg',
+    riddle: 'Quả gì kết thành từng chùm tròn xoe, ngọt lịm màu tím đậm?',
+    riddleEn: 'Small round purple fruits that grow in big bunches on vines?',
+    options: ['Nho tím', 'Măng cụt', 'Việt quất', 'Mận'],
+    optionsEn: ['Grapes', 'Mangosteen', 'Blueberry', 'Plum'],
+    spelling: ['N', 'H', 'O'],
+    spellingEn: ['G', 'R', 'A', 'P', 'E', 'S'],
+    funFact: 'Nho giúp mắt bé sáng long lanh và bổ sung nhiều chất chống oxy hóa bảo vệ sức khỏe.',
+    funFactEn: 'Grapes are packed with antioxidants that keep your eyes sharp and bright.'
+  },
+  {
     id: 'mango',
     name: 'Quả Xoài',
     nameEn: 'Mango',
     color: '#fb8500',
     colorGroup: 'yellow',
+    image: '/images/fruits/mango.jpg',
     riddle: 'Quả gì chín vàng thơm lừng, bên trong có hạt to dài cứng cáp?',
     riddleEn: 'Tropical fruit that smells sweet when ripe, yellow inside with a big flat seed?',
     options: ['Xoài vàng', 'Đu đủ', 'Cam', 'Mãng cầu'],
@@ -95,6 +117,7 @@ export const FRUITS = [
     nameEn: 'Avocado',
     color: '#2d6a4f',
     colorGroup: 'green',
+    image: '/images/fruits/avocado.jpg',
     riddle: 'Quả gì vỏ dầy màu xanh thẫm, ruột dẻo như bơ, làm sinh tố béo ngậy?',
     riddleEn: 'Dark green skin, creamy butter-like inside with a large round seed?',
     options: ['Quả Bơ', 'Ổi xanh', 'Dưa leo', 'Táo xanh'],
@@ -105,41 +128,12 @@ export const FRUITS = [
     funFactEn: 'Avocados provide healthy fats that boost brain development in children.'
   },
   {
-    id: 'mangosteen',
-    name: 'Măng cụt',
-    nameEn: 'Mangosteen',
-    color: '#4a154b',
-    colorGroup: 'purple',
-    riddle: 'Quả gì vỏ tím xù xì, xẻ ra múi trắng tinh như tép tỏi ngọt ngào?',
-    riddleEn: 'Thick purple peel with white garlic-like sweet segments inside?',
-    options: ['Măng cụt', 'Nho', 'Nhãn', 'Vải'],
-    optionsEn: ['Mangosteen', 'Grape', 'Longan', 'Lychee'],
-    spelling: ['M', 'Ă', 'N', 'G', ' ', 'C', 'Ụ', 'T'],
-    spellingEn: ['M', 'A', 'N', 'G', 'O', 'S', 'T', 'E', 'E', 'N'],
-    funFact: 'Măng cụt được gọi là Hoàng Hậu Trái Cây vì vẻ ngoài đội vương miện rực rỡ.',
-    funFactEn: 'Mangosteen is called the Queen of Fruits with a cute little leaf crown on top.'
-  },
-  {
-    id: 'pineapple',
-    name: 'Quả Dứa',
-    nameEn: 'Pineapple',
-    color: '#e0a96d',
-    colorGroup: 'yellow',
-    riddle: 'Quả gì có trăm con mắt, đầu đội vương miện lá xanh xòe rộng?',
-    riddleEn: 'Spiky fruit with a hundred eyes and a crown of leafy green feathers?',
-    options: ['Dứa / Thơm', 'Mãng cầu', 'Mít', 'Sầu riêng'],
-    optionsEn: ['Pineapple', 'Custard Apple', 'Jackfruit', 'Durian'],
-    spelling: ['D', 'Ứ', 'A'],
-    spellingEn: ['P', 'I', 'N', 'E', 'A', 'P', 'P', 'L', 'E'],
-    funFact: 'Dứa giúp tiêu hóa thức ăn rất nhanh và chứa lượng Vitamin C cực kỳ dồi dào.',
-    funFactEn: 'Pineapple helps digestion and packs a powerful dose of Vitamin C.'
-  },
-  {
     id: 'orange',
     name: 'Quả Cam',
     nameEn: 'Orange',
     color: '#f77f00',
     colorGroup: 'yellow',
+    image: '/images/fruits/orange.jpg',
     riddle: 'Quả gì tròn trịa da cam, vắt lấy nước uống vừa chua vừa ngọt đầy Vitamin C?',
     riddleEn: 'Round orange fruit full of juicy slices and packed with Vitamin C?',
     options: ['Quả Cam', 'Quả Quýt', 'Bưởi', 'Chanh'],
@@ -150,11 +144,28 @@ export const FRUITS = [
     funFactEn: 'Drinking fresh orange juice strengthens immunity and fights off colds.'
   },
   {
+    id: 'pineapple',
+    name: 'Quả Dứa',
+    nameEn: 'Pineapple',
+    color: '#e0a96d',
+    colorGroup: 'yellow',
+    image: '/images/fruits/pineapple.jpg',
+    riddle: 'Quả gì có trăm con mắt, đầu đội vương miện lá xanh xòe rộng?',
+    riddleEn: 'Spiky fruit with a hundred eyes and a crown of leafy green feathers?',
+    options: ['Dứa / Thơm', 'Mãng cầu', 'Mít', 'Sầu riêng'],
+    optionsEn: ['Pineapple', 'Custard Apple', 'Jackfruit', 'Durian'],
+    spelling: ['D', 'Ứ', 'A'],
+    spellingEn: ['P', 'I', 'N', 'E', 'A', 'P', 'P', 'L', 'E'],
+    funFact: 'Dứa giúp tiêu hóa thức ăn rất nhanh và chứa lượng Vitamin C cực kỳ dồi dào.',
+    funFactEn: 'Pineapple helps digestion and packs a powerful dose of Vitamin C.'
+  },
+  {
     id: 'cherry',
     name: 'Dâu anh đào',
     nameEn: 'Cherry',
     color: '#d62828',
     colorGroup: 'red',
+    image: '/images/fruits/cherry.jpg',
     riddle: 'Quả gì đôi bạn cùng tiến, màu đỏ mọng tròn đính trên cuống dài xinh xắn?',
     riddleEn: 'Small round red berries attached together in pairs on long stems?',
     options: ['Dâu anh đào', 'Dâu tây', 'Quả ớt', 'Cà chua ti ti'],
@@ -166,10 +177,11 @@ export const FRUITS = [
   },
   {
     id: 'durian',
-    name: 'Quả Sầu diêng',
+    name: 'Quả Sầu riêng',
     nameEn: 'Durian',
     color: '#90be6d',
     colorGroup: 'green',
+    image: '/images/fruits/durian.jpg',
     riddle: 'Quả gì vỏ đầy gai nhọn, hương thơm nồng nặc, ruột béo ngậy như kem?',
     riddleEn: 'Spiky armor outside, strong distinct aroma, creamy custard inside?',
     options: ['Sầu riêng', 'Mít', 'Mãng cầu', 'Dứa'],
@@ -178,6 +190,22 @@ export const FRUITS = [
     spellingEn: ['D', 'U', 'R', 'I', 'A', 'N'],
     funFact: 'Sầu riêng được mệnh danh là Vua trái cây ở Đông Nam Á với mùi vị độc đáo vô nhị.',
     funFactEn: 'Durian is celebrated as the King of Fruits with its rich custard texture.'
+  },
+  {
+    id: 'mangosteen',
+    name: 'Măng cụt',
+    nameEn: 'Mangosteen',
+    color: '#4a154b',
+    colorGroup: 'purple',
+    image: '/images/fruits/mangosteen.jpg',
+    riddle: 'Quả gì vỏ tím xù xì, xẻ ra múi trắng tinh như tép tỏi ngọt ngào?',
+    riddleEn: 'Thick purple peel with white garlic-like sweet segments inside?',
+    options: ['Măng cụt', 'Nho', 'Nhãn', 'Vải'],
+    optionsEn: ['Mangosteen', 'Grape', 'Longan', 'Lychee'],
+    spelling: ['M', 'Ă', 'N', 'G', ' ', 'C', 'Ụ', 'T'],
+    spellingEn: ['M', 'A', 'N', 'G', 'O', 'S', 'T', 'E', 'E', 'N'],
+    funFact: 'Măng cụt được gọi là Hoàng Hậu Trái Cây vì vẻ ngoài đội vương miện rực rỡ.',
+    funFactEn: 'Mangosteen is called the Queen of Fruits with a cute little leaf crown on top.'
   }
 ];
 
@@ -188,7 +216,7 @@ export const CATEGORIES = {
   purple: { name: 'Giỏ Trái Cây Tím', nameEn: 'Purple Basket', color: '#7209b7' }
 };
 
-/** Toddler sort: red / yellow / green only (no purple). */
+/** Toddler sort categories: Red, Yellow, Green */
 export const SORT_CATEGORIES = {
   red: CATEGORIES.red,
   yellow: CATEGORIES.yellow,

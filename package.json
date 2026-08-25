@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "audio:validate": "node scripts/validate-audio.mjs",
+    "levels:validate": "node scripts/validate-levels.mjs"
   },
   "dependencies": {
     "canvas-confetti": "^1.9.4"

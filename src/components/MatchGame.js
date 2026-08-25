@@ -1,6 +1,7 @@
 import { FRUITS } from '../data/fruits.js';
-import { FRUIT_SVGS, UI_ICONS } from '../utils/icons.js';
-import { playSuccess, playError, playClick, playVictory, speak } from '../utils/audio.js';
+import { LEVELS, MATCH_COUNTS } from '../data/levels.js';
+import { getFruitImg, UI_ICONS } from '../utils/icons.js';
+import { playSuccess, playError, playClick, playVictory, speakClip, speakFruit } from '../utils/audio.js';
 import { prepareRoundedDragImage, setRoundedDragImage } from '../utils/dragPreview.js';
 import confetti from 'canvas-confetti';
 
@@ -13,6 +14,7 @@ export class MatchGame {
 
     this.slots = [];
     this.tray = [];
+    this.levelIndex = 0;
     this.selectedTrayId = null;
     this.done = false;
 
@@ -25,7 +27,9 @@ export class MatchGame {
   }
 
   init() {
-    const picks = [...FRUITS].sort(() => 0.5 - Math.random()).slice(0, 6);
+    const picks = [...FRUITS]
+      .sort(() => 0.5 - Math.random())
+      .slice(0, MATCH_COUNTS[this.levelIndex]);
     this.slots = picks.map((f) => ({ fruitId: f.id, fruit: f, filled: false }));
     this.tray = picks
       .map((f) => ({ id: f.id, fruit: f, placed: false }))
@@ -40,36 +44,43 @@ export class MatchGame {
     const filled = this.slots.filter((s) => s.filled).length;
 
     this.container.innerHTML = `
-      <div class="match-container game-panel animate-fade-in">
+      <div class="match-container game-panel level-${LEVELS[this.levelIndex].id} animate-fade-in">
         <div class="game-title-row">
           <h2>${isVi ? 'Ghép hình' : 'Match'}</h2>
-          <span class="star-badge" style="min-height:36px;font-size:0.95rem;">${filled}/6</span>
+          <span class="star-badge" style="min-height:36px;font-size:0.95rem;">${filled}/${this.slots.length}</span>
         </div>
-        <p class="hint-line">${isVi ? 'Kéo hoặc chạm trái cây vào bóng đen đúng' : 'Drag or tap fruit onto the matching outline'}</p>
+        <p class="hint-line">${isVi ? 'Chạm hoặc kéo trái cây vào bóng đúng' : 'Tap or drag fruit onto the matching shadow'}</p>
 
-        <div class="match-board">
+        <div class="difficulty-picker level-picker">
+          ${LEVELS.map((level, index) => `
+            <button class="diff-btn ${index === this.levelIndex ? 'active' : ''}" data-level="${index}" type="button">
+              ${isVi ? level.nameVi : level.nameEn}
+            </button>`).join('')}
+        </div>
+
+        <div class="match-board match-board-toddler">
           ${this.slots
             .map(
               (slot, idx) => `
             <div class="match-slot ${slot.filled ? 'filled' : ''}" data-slot="${idx}" data-fruit-id="${slot.fruitId}">
               ${
                 slot.filled
-                  ? `<div class="placed-fruit">${FRUIT_SVGS[slot.fruitId] || ''}</div>`
-                  : `<div class="silhouette">${FRUIT_SVGS[slot.fruitId] || ''}</div>`
+                  ? `<div class="placed-fruit animate-bounce">${getFruitImg(slot.fruitId)}</div>`
+                  : `<div class="silhouette">${getFruitImg(slot.fruitId, '', true)}</div>`
               }
             </div>`
             )
             .join('')}
         </div>
 
-        <div class="match-tray">
+        <div class="match-tray match-tray-toddler">
           ${this.tray
             .map(
               (item) => `
             <div class="match-fruit ${item.placed ? 'placed-away' : ''} ${this.selectedTrayId === item.id ? 'selected' : ''}"
                  data-tray-id="${item.id}"
                  draggable="${!item.placed}">
-              ${FRUIT_SVGS[item.id] || ''}
+              ${getFruitImg(item.id)}
             </div>`
             )
             .join('')}
@@ -83,6 +94,14 @@ export class MatchGame {
   }
 
   bindEvents() {
+    this.container.querySelectorAll('[data-level]').forEach((button) => {
+      button.addEventListener('click', () => {
+        playClick();
+        this.levelIndex = Number(button.getAttribute('data-level'));
+        this.init();
+      });
+    });
+
     const trayItems = this.container.querySelectorAll('.match-fruit:not(.placed-away)');
     trayItems.forEach((el) => {
       prepareRoundedDragImage(el);
@@ -146,7 +165,7 @@ export class MatchGame {
       playError();
       slotEl.classList.add('shake-red');
       setTimeout(() => slotEl.classList.remove('shake-red'), 500);
-      speak(isVi ? 'Sonic Đù!' : 'Not that one!', this.lang);
+      speakClip('khen_lai', 'Not that one!', this.lang);
       return;
     }
 
@@ -154,7 +173,7 @@ export class MatchGame {
     slot.filled = true;
     trayItem.placed = true;
     this.selectedTrayId = null;
-    speak(isVi ? fruit.name : fruit.nameEn, this.lang);
+    speakFruit(fruit, this.lang);
     this.render();
 
     if (this.slots.every((s) => s.filled)) {
@@ -179,11 +198,13 @@ export class MatchGame {
     victoryEl.innerHTML = `
       <div class="victory-modal">
         <div class="victory-icon">${UI_ICONS.trophy || UI_ICONS.star}</div>
-        <h2>${isVi ? 'Ghép xong rồi!' : 'All matched!'}</h2>
-        <p>${isVi ? 'Bé nhận 1 sao và một sticker mới' : 'You earned a star and a sticker'}</p>
+        <h2>${isVi ? `Sonic xong màn ${this.levelIndex + 1}!` : `Level ${this.levelIndex + 1} complete!`}</h2>
+        <p>${isVi ? 'Bé nhận được 1 ngôi sao vàng' : 'You earned a gold star'}</p>
         <div class="victory-actions">
           <button class="btn-primary" id="btn-match-again" type="button">
-            ${isVi ? 'Chơi tiếp' : 'Play again'}
+            ${this.levelIndex < LEVELS.length - 1
+              ? (isVi ? 'Màn tiếp theo' : 'Next level')
+              : (isVi ? 'Chơi lại từ đầu' : 'Play from start')}
           </button>
         </div>
       </div>
@@ -191,6 +212,7 @@ export class MatchGame {
 
     victoryEl.querySelector('#btn-match-again')?.addEventListener('click', () => {
       playClick();
+      this.levelIndex = this.levelIndex < LEVELS.length - 1 ? this.levelIndex + 1 : 0;
       this.init();
     });
   }

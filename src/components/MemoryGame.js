@@ -1,6 +1,7 @@
 import { FRUITS } from '../data/fruits.js';
-import { FRUIT_SVGS, UI_ICONS } from '../utils/icons.js';
-import { playFlip, playSuccess, playError, playVictory, playClick, speak } from '../utils/audio.js';
+import { LEVELS, MEMORY_PAIRS } from '../data/levels.js';
+import { getFruitImg, UI_ICONS } from '../utils/icons.js';
+import { playFlip, playSuccess, playError, playVictory, playClick, speakFruit } from '../utils/audio.js';
 import confetti from 'canvas-confetti';
 
 export class MemoryGame {
@@ -10,11 +11,11 @@ export class MemoryGame {
     this.onAwardStar = options.onAwardStar || (() => {});
     this.onUnlockFruit = options.onUnlockFruit || (() => {});
 
-    this.difficulty = 'easy';
+    this.levelIndex = 0;
     this.cards = [];
     this.flippedCards = [];
     this.matchedPairs = 0;
-    this.totalPairs = 4;
+    this.totalPairs = 2;
     this.moves = 0;
     this.isLockBoard = false;
 
@@ -27,7 +28,7 @@ export class MemoryGame {
   }
 
   init() {
-    this.totalPairs = this.difficulty === 'easy' ? 4 : (this.difficulty === 'medium' ? 6 : 8);
+    this.totalPairs = MEMORY_PAIRS[this.levelIndex];
     this.matchedPairs = 0;
     this.moves = 0;
     this.flippedCards = [];
@@ -49,27 +50,23 @@ export class MemoryGame {
     const isVi = this.lang === 'vi';
 
     this.container.innerHTML = `
-      <div class="memory-container animate-fade-in">
-        <div class="memory-controls">
-          <div class="difficulty-picker">
-            <button class="diff-btn ${this.difficulty === 'easy' ? 'active' : ''}" data-diff="easy">
-              ${isVi ? 'Dễ (4 cặp)' : 'Easy (4 pairs)'}
-            </button>
-            <button class="diff-btn ${this.difficulty === 'medium' ? 'active' : ''}" data-diff="medium">
-              ${isVi ? 'Vừa (6 cặp)' : 'Medium (6 pairs)'}
-            </button>
-            <button class="diff-btn ${this.difficulty === 'hard' ? 'active' : ''}" data-diff="hard">
-              ${isVi ? 'Khó (8 cặp)' : 'Hard (8 pairs)'}
-            </button>
-          </div>
+      <div class="memory-container game-panel level-${LEVELS[this.levelIndex].id} animate-fade-in">
+        <div class="game-title-row">
+          <h2>${isVi ? 'Lật thẻ đôi' : 'Baby Memory'}</h2>
+          <span class="star-badge" style="min-height:36px;font-size:0.95rem;">${this.matchedPairs}/${this.totalPairs}</span>
+        </div>
+        <p class="hint-line">${isVi ? 'Lật mở 2 thẻ giống nhau để ghi điểm nhé' : 'Flip open matching pairs of fruits'}</p>
 
-          <div class="memory-stats">
-            <span class="badge">${isVi ? 'Số lần lật:' : 'Moves:'} <strong>${this.moves}</strong></span>
-            <span class="badge badge-star">${UI_ICONS.star} ${isVi ? 'Đã tìm:' : 'Matched:'} <strong>${this.matchedPairs}/${this.totalPairs}</strong></span>
+        <div class="memory-controls" style="margin-bottom: 12px;">
+          <div class="difficulty-picker">
+            ${LEVELS.map((level, index) => `
+              <button class="diff-btn ${index === this.levelIndex ? 'active' : ''}" data-level="${index}" type="button">
+                ${isVi ? level.nameVi : level.nameEn}
+              </button>`).join('')}
           </div>
         </div>
 
-        <div class="memory-grid memory-grid-${this.difficulty}">
+        <div class="memory-grid memory-grid-${LEVELS[this.levelIndex].id}">
           ${this.cards.map((card, idx) => `
             <div class="memory-card ${card.isFlipped ? 'flipped' : ''} ${card.isMatched ? 'matched' : ''}" data-index="${idx}">
               <div class="card-inner">
@@ -77,7 +74,7 @@ export class MemoryGame {
                   <span>?</span>
                 </div>
                 <div class="card-back" style="border-color: ${card.fruit.color}">
-                  <div class="card-icon-wrapper">${FRUIT_SVGS[card.fruit.id]}</div>
+                  <div class="card-icon-wrapper">${getFruitImg(card.fruit.id)}</div>
                   <span class="card-name">${isVi ? card.fruit.name : card.fruit.nameEn}</span>
                 </div>
               </div>
@@ -89,11 +86,11 @@ export class MemoryGame {
       </div>
     `;
 
-    const diffBtns = this.container.querySelectorAll('.diff-btn');
+    const diffBtns = this.container.querySelectorAll('[data-level]');
     diffBtns.forEach(btn => {
       btn.addEventListener('click', () => {
         playClick();
-        this.difficulty = btn.getAttribute('data-diff');
+        this.levelIndex = Number(btn.getAttribute('data-level'));
         this.init();
       });
     });
@@ -141,7 +138,7 @@ export class MemoryGame {
       this.onAwardStar();
       this.onUnlockFruit(item1.card.fruit.id);
 
-      speak(isVi ? item1.card.fruit.name : item1.card.fruit.nameEn, this.lang);
+      speakFruit(item1.card.fruit, this.lang);
 
       this.flippedCards = [];
       this.isLockBoard = false;
@@ -169,13 +166,9 @@ export class MemoryGame {
   }
 
   updateStatsDisplay() {
-    const statsEl = this.container.querySelector('.memory-stats');
-    const isVi = this.lang === 'vi';
-    if (statsEl) {
-      statsEl.innerHTML = `
-        <span class="badge">${isVi ? 'Số lần lật:' : 'Moves:'} <strong>${this.moves}</strong></span>
-        <span class="badge badge-star">${UI_ICONS.star} ${isVi ? 'Đã tìm:' : 'Matched:'} <strong>${this.matchedPairs}/${this.totalPairs}</strong></span>
-      `;
+    const badgeEl = this.container.querySelector('.star-badge');
+    if (badgeEl) {
+      badgeEl.textContent = `${this.matchedPairs}/${this.totalPairs}`;
     }
   }
 
@@ -191,13 +184,15 @@ export class MemoryGame {
     victoryEl.className = 'victory-overlay animate-pop-in';
     victoryEl.innerHTML = `
       <div class="victory-modal">
-        <div class="victory-icon">${UI_ICONS.trophy}</div>
-        <h2>${isVi ? 'Tuyệt Vời! Bé Đã Tìm Được Hết Cặp Trái Cây!' : 'Awesome Job! All Matches Found!'}</h2>
-        <p>${isVi ? `Bé hoàn thành trong <strong>${this.moves}</strong> lần lật.` : `You completed in <strong>${this.moves}</strong> moves.`}</p>
+        <div class="victory-icon">${UI_ICONS.trophy || UI_ICONS.star}</div>
+        <h2>${isVi ? `Sonic xong màn ${this.levelIndex + 1}!` : `Level ${this.levelIndex + 1} complete!`}</h2>
+        <p>${isVi ? 'Sonic đã tìm thấy tất cả các cặp trái cây!' : 'All fruit pairs matched!'}</p>
 
         <div class="victory-actions">
           <button class="btn-primary" id="btn-memory-play-again">
-            ${isVi ? 'Chơi lại' : 'Play Again'}
+            ${this.levelIndex < LEVELS.length - 1
+              ? (isVi ? 'Màn tiếp theo' : 'Next level')
+              : (isVi ? 'Chơi lại từ đầu' : 'Play from start')}
           </button>
         </div>
       </div>
@@ -207,6 +202,7 @@ export class MemoryGame {
     if (playAgainBtn) {
       playAgainBtn.addEventListener('click', () => {
         playClick();
+        this.levelIndex = this.levelIndex < LEVELS.length - 1 ? this.levelIndex + 1 : 0;
         this.init();
       });
     }

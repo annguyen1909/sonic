@@ -1,6 +1,6 @@
 import { FRUITS } from '../data/fruits.js';
 import { FRUIT_SVGS, UI_ICONS } from '../utils/icons.js';
-import { playSuccess, playError, playClick, playVictory, speak } from '../utils/audio.js';
+import { playSuccess, playError, playClick, playVictory, speakFruit } from '../utils/audio.js';
 import confetti from 'canvas-confetti';
 
 export class SpellingGame {
@@ -127,7 +127,7 @@ export class SpellingGame {
     if (audioBtn) {
       audioBtn.addEventListener('click', () => {
         playClick();
-        speak(isVi ? fruit.name : fruit.nameEn, this.lang);
+        speakFruit(fruit, this.lang);
       });
     }
 
@@ -218,7 +218,7 @@ export class SpellingGame {
       confetti({ particleCount: 70, spread: 80, origin: { y: 0.6 } });
 
       const fruitName = isVi ? this.currentFruit.name : this.currentFruit.nameEn;
-      speak(fruitName, this.lang);
+      speakFruit(this.currentFruit, this.lang);
 
       feedbackEl.className = 'feedback-area feedback-success animate-bounce';
       feedbackEl.innerHTML = `

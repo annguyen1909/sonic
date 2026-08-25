@@ -1,6 +1,6 @@
 import { FRUITS } from '../data/fruits.js';
 import { FRUIT_SVGS, UI_ICONS } from '../utils/icons.js';
-import { playSuccess, playError, playClick, playVictory, speak } from '../utils/audio.js';
+import { playSuccess, playError, playClick, playVictory, speak, speakClipSequence } from '../utils/audio.js';
 import confetti from 'canvas-confetti';
 
 export class QuizGame {
@@ -127,7 +127,7 @@ export class QuizGame {
       confetti({ particleCount: 70, spread: 80, origin: { y: 0.6 } });
 
       const fruitName = isVi ? fruit.name : fruit.nameEn;
-      speak(isVi ? `Đúng rồi! ${fruitName}` : `Yes! ${fruitName}`, this.lang);
+      speakClipSequence(['khen_dung', fruit.id], `Yes! ${fruitName}`, this.lang);
 
       feedbackEl.className = 'feedback-area feedback-success animate-bounce';
       feedbackEl.innerHTML = `

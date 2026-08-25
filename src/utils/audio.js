@@ -1,5 +1,19 @@
+import { FRUITS } from '../data/fruits.js';
+
 let audioCtx = null;
 let soundEnabled = true;
+let cachedVoices = [];
+let activeVoiceAudio = null;
+
+export const VOICE_SCRIPTS = Object.fromEntries([
+  ...FRUITS.flatMap((fruit) => [
+    [fruit.id, fruit.name],
+    [`${fruit.id}_ripe`, `${fruit.name} chín rồi!`],
+    [`${fruit.id}_harvest`, `Hái ${fruit.name}!`]
+  ]),
+  ['khen_dung', 'Đúng rồi!'],
+  ['khen_lai', 'Sonic Đù!']
+]);
 
 function getAudioContext() {
   if (!audioCtx) {
@@ -23,6 +37,11 @@ export function toggleSound(enabled) {
     soundEnabled = enabled;
   } else {
     soundEnabled = !soundEnabled;
+  }
+  if (!soundEnabled) {
+    activeVoiceAudio?.pause();
+    activeVoiceAudio = null;
+    window.speechSynthesis?.cancel();
   }
   return soundEnabled;
 }
@@ -237,39 +256,116 @@ export function playWaterSound() {
   }
 }
 
-function voiceScore(voice) {
-  const label = `${voice.name} ${voice.voiceURI}`.toLowerCase();
+// Pre-fetch and cache available voices
+if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+  const updateVoices = () => {
+    cachedVoices = window.speechSynthesis.getVoices();
+  };
+  updateVoices();
+  if (window.speechSynthesis.onvoiceschanged !== undefined) {
+    window.speechSynthesis.onvoiceschanged = updateVoices;
+  }
+}
+
+/**
+ * Score voices to strictly prioritize young, warm, cheerful female preschool teacher voices
+ */
+function voiceScore(voice, langPrefix) {
+  const label = `${voice.name} ${voice.voiceURI} ${voice.lang}`.toLowerCase();
   let score = 0;
-  if (/google|microsoft|enhanced|neural|premium|natural/i.test(label)) score += 5;
-  if (/linh|female|woman|girl|nữ|\bmy\b|samantha|karen|zira/i.test(label)) score += 3;
-  if (voice.localService) score += 1;
-  if (/male|man|boy|nam|david|mark|fred/i.test(label)) score -= 4;
+
+  if (langPrefix === 'vi') {
+    // Apple Siri Linh / Linh Enhanced / Linh Premium (Top Vietnamese female on Mac/iOS)
+    if (/linh/i.test(label)) score += 40;
+    // Microsoft Natural HoaiMy / Mai / Lan / Ngoc / Yen
+    if (/hoaimy|hoài my|mai|lan|ngoc|ngọc|yen|yến/i.test(label)) score += 35;
+    // Google Tiếng Việt Female
+    if (/google/i.test(label) && /vi/i.test(label) && !/male|nam/i.test(label)) score += 25;
+    // Any female indicators
+    if (/female|nữ|woman|girl/i.test(label)) score += 20;
+    if (/enhanced|premium|neural|natural/i.test(label)) score += 15;
+  } else {
+    // English preschool female teacher voices: Ava, Jenny, Samantha, Serena, Zoe, Allison
+    if (/ava|jenny|samantha|serena|zoe|allison|karen|susan|victoria|moira/i.test(label)) score += 35;
+    if (/female|woman|girl/i.test(label)) score += 20;
+    if (/enhanced|premium|neural|natural|google/i.test(label)) score += 15;
+  }
+
+  // Heavy penalty for male voices
+  if (/male|man|boy|nam|quang|minh|david|mark|guy|george|daniel|fred|alex/i.test(label)) {
+    score -= 80;
+  }
+
   return score;
 }
 
-function pickKidVoice(langCode) {
-  const voices = window.speechSynthesis.getVoices();
-  if (!voices.length) return null;
+function pickTeacherVoice(langCode) {
+  const voices = cachedVoices.length ? cachedVoices : (window.speechSynthesis ? window.speechSynthesis.getVoices() : []);
+  if (!voices || !voices.length) return null;
+
   const prefix = langCode.toLowerCase().slice(0, 2);
   const langVoices = voices.filter((v) => v.lang.toLowerCase().startsWith(prefix));
   const pool = langVoices.length ? langVoices : voices;
-  return [...pool].sort((a, b) => voiceScore(b) - voiceScore(a))[0] || null;
+
+  const ranked = [...pool].sort((a, b) => voiceScore(b, prefix) - voiceScore(a, prefix));
+  return ranked[0] || null;
 }
 
+/**
+ * Cheerful, clear, warm young preschool teacher voice
+ */
 export function speak(text, lang = 'vi-VN') {
   if (!soundEnabled) return;
   if (!('speechSynthesis' in window)) return;
 
-  window.speechSynthesis.cancel();
-  const utterance = new SpeechSynthesisUtterance(text);
-  const langCode = lang === 'en' ? 'en-US' : 'vi-VN';
-  utterance.lang = langCode;
-  // Warm toddler pace — avoid high pitch (sounds dry/robotic on system voices)
-  utterance.rate = 0.9;
-  utterance.pitch = 1.1;
+  try {
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(text);
+    const langCode = lang === 'en' ? 'en-US' : 'vi-VN';
+    utterance.lang = langCode;
 
-  const voice = pickKidVoice(langCode);
-  if (voice) utterance.voice = voice;
+    // Cheerful, upbeat kindergarten teacher tone (slightly higher pitch, clear natural pace)
+    utterance.rate = 0.92;
+    utterance.pitch = 1.18;
+    utterance.volume = 1.0;
 
-  window.speechSynthesis.speak(utterance);
+    const teacherVoice = pickTeacherVoice(langCode);
+    if (teacherVoice) {
+      utterance.voice = teacherVoice;
+    }
+
+    window.speechSynthesis.speak(utterance);
+  } catch (e) {
+    console.warn('Speech synthesis error:', e);
+  }
+}
+
+export function speakClip(clipId, fallbackText = '', lang = 'vi') {
+  speakClipSequence([clipId], fallbackText, lang);
+}
+
+export function speakClipSequence(clipIds, fallbackText = '', lang = 'vi') {
+  if (!soundEnabled) return;
+
+  const validIds = clipIds.filter((id) => VOICE_SCRIPTS[id]);
+  const text = fallbackText || validIds.map((id) => VOICE_SCRIPTS[id]).join(' ');
+  if (lang === 'en' || validIds.length !== clipIds.length) {
+    speak(text, lang);
+    return;
+  }
+
+  activeVoiceAudio?.pause();
+  window.speechSynthesis?.cancel();
+
+  const playAt = (index) => {
+    if (index >= validIds.length) return;
+    activeVoiceAudio = new Audio(`/audio/${validIds[index]}.mp3`);
+    activeVoiceAudio.addEventListener('ended', () => playAt(index + 1), { once: true });
+    activeVoiceAudio.play().catch(() => speak(text, lang));
+  };
+  playAt(0);
+}
+
+export function speakFruit(fruit, lang = 'vi') {
+  speakClip(fruit.id, lang === 'vi' ? VOICE_SCRIPTS[fruit.id] : fruit.nameEn, lang);
 }

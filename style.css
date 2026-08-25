@@ -1,4 +1,4 @@
-/* Citrus stall — toddler fruit games */
+/* Citrus stall — toddler fruit games for Sonic */
 
 :root {
   --citrus-yellow: #ffcc33;
@@ -10,7 +10,7 @@
   --success-green: #3d9a5f;
   --danger-coral: #e85d4c;
   --panel: #fffaf0;
-  --radius: 18px;
+  --radius: 20px;
   --shadow: 0 4px 0 rgba(232, 93, 4, 0.18);
   --font-display: 'Baloo 2', 'Be Vietnam Pro', sans-serif;
   --font-body: 'Be Vietnam Pro', system-ui, sans-serif;
@@ -37,6 +37,26 @@ body {
   -webkit-font-smoothing: antialiased;
   user-select: none;
   -webkit-user-select: none;
+}
+
+/* Real fruit photography rendering */
+.fruit-real-img {
+  width: 100%;
+  height: 100%;
+  max-width: 130px;
+  max-height: 130px;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto;
+  border-radius: 16px;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+
+.fruit-silhouette {
+  opacity: 0.34 !important;
+  mix-blend-mode: normal !important;
+  transform: scale(0.95);
 }
 
 .fruit-svg-icon {
@@ -66,7 +86,6 @@ body {
   justify-content: space-between;
   gap: 10px;
   background: linear-gradient(180deg, #fff3c4, #ffe08a);
-  border: var(--border, 3px solid var(--citrus-wood));
   border: 3px solid var(--citrus-wood);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
@@ -82,9 +101,18 @@ body {
 }
 
 .brand-logo {
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.brand-logo-img {
   width: 44px;
   height: 44px;
-  flex-shrink: 0;
+  border-radius: 12px;
 }
 
 .brand-titles h1 {
@@ -96,7 +124,7 @@ body {
 }
 
 .brand-subtitle {
-  font-size: 0.8rem;
+  font-size: 0.82rem;
   font-weight: 700;
   color: var(--citrus-muted);
 }
@@ -115,7 +143,7 @@ body {
   font-weight: 800;
   font-size: 1.1rem;
   padding: 6px 12px;
-  border-radius: 12px;
+  border-radius: 14px;
   border: 3px solid #fbbf24;
   display: inline-flex;
   align-items: center;
@@ -155,7 +183,7 @@ body {
   justify-content: flex-start;
 }
 
-/* Bottom dock */
+/* Bottom dock — 3 Toddler Game Tabs */
 .game-dock {
   position: fixed;
   left: 50%;
@@ -163,11 +191,10 @@ body {
   transform: translateX(-50%);
   width: min(960px, 100%);
   display: grid;
-  /* ponytail: 2 cột khi chỉ còn Ghép + Xếp; đổi lại 4 khi bật Ép/Vườn */
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 6px;
-  padding: 10px 12px calc(10px + env(safe-area-inset-bottom, 0px));
-  background: #fff;
+  padding: 8px 10px calc(8px + env(safe-area-inset-bottom, 0px));
+  background: #ffffff;
   border-top: 3px solid var(--citrus-orange);
   box-shadow: 0 -4px 0 rgba(232, 93, 4, 0.12);
   z-index: 40;
@@ -180,19 +207,15 @@ body {
   justify-content: center;
   gap: 2px;
   min-height: 64px;
-  padding: 8px 4px;
+  padding: 6px 2px;
   border: 3px solid transparent;
   border-radius: 16px;
   background: transparent;
   cursor: pointer;
   font-family: var(--font-display);
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   font-weight: 800;
   color: var(--citrus-muted);
-}
-
-.dock-tab[hidden] {
-  display: none !important;
 }
 
 .dock-tab .tab-icon-svg {
@@ -211,7 +234,7 @@ body {
 }
 
 .dock-tab:active {
-  transform: scale(0.96);
+  transform: scale(0.95);
 }
 
 /* Shared panels */
@@ -220,8 +243,7 @@ body {
   border: 3px solid var(--citrus-wood);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
-  padding: 16px;
-  /* ponytail: đừng kéo cao panel → trống dưới khay trái cây */
+  padding: clamp(10px, 2.5vw, 16px);
   flex: 0 1 auto;
   width: 100%;
 }
@@ -245,7 +267,7 @@ body {
   font-size: 0.95rem;
   font-weight: 600;
   color: var(--citrus-muted);
-  margin-bottom: 10px;
+  margin-bottom: 12px;
 }
 
 .btn-primary,
@@ -264,6 +286,10 @@ body {
   background: var(--citrus-yellow);
   color: var(--citrus-ink);
   box-shadow: var(--shadow);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
 }
 
 .btn-primary:active,
@@ -295,57 +321,26 @@ body {
   color: #fff;
 }
 
-/* Match */
-.match-board {
+/* Match Game Toddler */
+.match-board-toddler {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-  margin-bottom: 10px;
-}
-
-@media (min-width: 700px) {
-  .match-board {
-    /* ponytail: 3x2 thay vì 6 cột — ô to hơn, hết khoảng trống dưới hàng quả */
-    gap: 14px;
-    margin-bottom: 10px;
-    max-width: 520px;
-    margin-left: auto;
-    margin-right: auto;
-    width: 100%;
-  }
-
-  .match-slot {
-    min-height: 0;
-  }
-
-  .match-tray {
-    gap: 12px;
-    padding: 12px;
-    max-width: 520px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .match-fruit {
-    width: 78px;
-    height: 78px;
-  }
-
-  .match-container.game-panel {
-    padding: 16px 18px 14px;
-  }
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  max-width: 440px;
+  margin: 0 auto 14px;
+  width: 100%;
 }
 
 .match-slot {
   aspect-ratio: 1;
   border: 3px dashed var(--citrus-orange);
-  border-radius: 16px;
+  border-radius: 20px;
   background: #fff7ed;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 8px;
-  min-height: 72px;
+  padding: 10px;
+  min-height: 0;
   transition: border-color 0.15s, background 0.15s;
 }
 
@@ -361,65 +356,70 @@ body {
 }
 
 .match-slot .silhouette {
-  width: 78%;
-  height: 78%;
-  filter: brightness(0) opacity(0.28);
-  pointer-events: none;
+  width: 85%;
+  height: 85%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .match-slot .placed-fruit {
-  width: 85%;
-  height: 85%;
+  width: 90%;
+  height: 90%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   animation: popIn 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-.match-tray {
+.match-tray-toddler {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  gap: 10px;
-  padding: 10px;
+  gap: 12px;
+  padding: 12px;
   background: #fff3c4;
   border: 3px solid var(--citrus-orange);
-  border-radius: 16px;
-  min-height: 0;
+  border-radius: 18px;
+  max-width: 440px;
+  margin: 0 auto;
 }
 
 .match-fruit {
-  width: 72px;
-  height: 72px;
+  width: clamp(64px, 20vw, 86px);
+  height: clamp(64px, 20vw, 86px);
   border: 3px solid var(--citrus-wood);
-  border-radius: 16px;
+  border-radius: 18px;
   overflow: hidden;
   background: #fff;
   padding: 6px;
-  cursor: grab;
+  cursor: pointer;
   box-shadow: var(--shadow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.15s;
 }
 
 .match-fruit.selected {
   outline: 4px solid var(--citrus-orange);
-  transform: scale(1.06);
+  transform: scale(1.08);
 }
 
 .match-fruit.placed-away {
   display: none;
 }
 
-/* Sort */
-.sorting-container,
-.blender-container,
-.garden-container,
-.match-container {
+/* Sorting Game */
+.sorting-container {
   display: flex;
   flex-direction: column;
-  flex: 0 1 auto;
 }
 
 .baskets-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(var(--basket-count, 3), minmax(0, 1fr));
   gap: 10px;
   margin-bottom: 14px;
 }
@@ -427,142 +427,164 @@ body {
 .basket-card {
   background: #fff;
   border: 3px solid #ccc;
-  border-radius: 16px;
-  min-height: 120px;
+  border-radius: 18px;
+  min-height: 140px;
   padding: 8px;
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 6px;
+  cursor: pointer;
+  transition: transform 0.15s;
 }
 
 .basket-card.drag-over {
   background: #fff7ed;
-  transform: scale(1.02);
+  transform: scale(1.04);
+}
+
+.basket-swatch {
+  width: 100%;
+  height: 10px;
+  border-radius: 6px;
 }
 
 .basket-title {
   font-family: var(--font-display);
   font-weight: 800;
-  font-size: 0.95rem;
+  font-size: 1rem;
   text-align: center;
-}
-
-.basket-swatch {
-  height: 10px;
-  border-radius: 999px;
 }
 
 .basket-contents {
   display: flex;
   flex-wrap: wrap;
-  gap: 4px;
   justify-content: center;
-  min-height: 48px;
-  flex: 1;
+  gap: 6px;
+  width: 100%;
+  min-height: 50px;
 }
 
 .basket-item-pill {
-  width: 36px;
-  height: 36px;
+  width: 44px;
+  height: 44px;
+  background: #fff;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 2px;
+}
+
+.pill-fruit-photo {
+  width: 100%;
+  height: 100%;
 }
 
 .sorting-tray {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 10px;
+  gap: 12px;
   padding: 12px;
   background: #fff3c4;
   border: 3px solid var(--citrus-orange);
-  border-radius: 16px;
+  border-radius: 18px;
 }
 
 .sorting-fruit-item {
-  width: 76px;
-  border: 3px solid var(--citrus-wood);
-  border-radius: 16px;
-  overflow: hidden;
+  width: clamp(64px, 18vw, 80px);
+  height: clamp(64px, 18vw, 80px);
   background: #fff;
+  border: 3px solid var(--citrus-wood);
+  border-radius: 18px;
   padding: 6px;
   cursor: pointer;
   box-shadow: var(--shadow);
-  text-align: center;
-}
-
-.sorting-fruit-item .fruit-icon-box {
-  width: 56px;
-  height: 56px;
-  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.15s;
 }
 
 .sorting-fruit-item.selected-fruit {
   outline: 4px solid var(--citrus-orange);
+  transform: scale(1.08);
 }
 
 .sorting-fruit-item.sorted-away {
   display: none;
 }
 
-.fruit-name-label {
-  display: none;
+.fruit-icon-box {
+  width: 100%;
+  height: 100%;
 }
 
-/* Blender */
+/* Blender Juice Stand */
+.blender-container {
+  display: flex;
+  flex-direction: column;
+}
+
 .blender-workspace {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  align-items: center;
+  gap: 16px;
 }
 
-@media (min-width: 720px) {
+@media (min-width: 600px) {
   .blender-workspace {
     flex-direction: row;
-    align-items: stretch;
+    align-items: flex-start;
+    gap: 24px;
   }
 }
 
 .blender-machine {
-  background: #fff;
-  border: 3px solid var(--citrus-wood);
-  border-radius: 20px;
-  padding: 14px;
-  box-shadow: var(--shadow);
+  width: 190px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
-  min-width: min(100%, 240px);
+  flex-shrink: 0;
+}
+
+.blender-lid {
+  width: 110px;
+  height: 22px;
+  background: #475569;
+  border-radius: 12px 12px 4px 4px;
 }
 
 .blender-jar {
-  width: 160px;
-  height: 180px;
-  border: 3px solid #94a3b8;
-  border-radius: 18px 18px 28px 28px;
-  background: #e0f2fe;
+  width: 130px;
+  height: 170px;
+  background: rgba(255, 255, 255, 0.7);
+  border: 4px solid #cbd5e1;
+  border-radius: 6px 6px 20px 20px;
   position: relative;
   overflow: hidden;
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+  padding-bottom: 10px;
 }
 
 .blender-liquid {
   position: absolute;
-  left: 0;
-  right: 0;
   bottom: 0;
-  background: linear-gradient(180deg, #fb923c, #ea580c);
-  transition: height 0.25s ease;
+  left: 0;
+  width: 100%;
+  transition: height 0.4s ease, background-color 0.4s ease;
+  border-radius: 0 0 16px 16px;
 }
 
 .blender-contents {
-  position: absolute;
-  inset: 0;
+  position: relative;
+  z-index: 2;
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
+  gap: 6px;
   justify-content: center;
-  gap: 4px;
-  padding: 10px;
-  z-index: 1;
 }
 
 .blender-dropped-fruit {
@@ -571,75 +593,100 @@ body {
 }
 
 .blender-base {
+  width: 160px;
+  height: 60px;
+  background: #334155;
+  border-radius: 12px 12px 18px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 4px;
+}
+
+.blender-controls-side {
+  flex: 1;
   width: 100%;
-}
-
-.blend-action-btn {
-  width: 100%;
-}
-
-.shelf-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(72px, 1fr));
-  gap: 8px;
-}
-
-.shelf-fruit-card {
-  border: 3px solid var(--citrus-wood);
-  border-radius: 14px;
-  background: #fff;
-  padding: 8px;
-  cursor: pointer;
-  min-height: 72px;
-  box-shadow: var(--shadow);
-}
-
-.shelf-fruit-card .shelf-icon {
-  width: 48px;
-  height: 48px;
-  margin: 0 auto;
-}
-
-.shelf-name {
-  display: none;
 }
 
 .selected-pills {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  margin: 8px 0;
-  min-height: 40px;
+  margin-bottom: 12px;
+  min-height: 48px;
 }
 
 .ingredient-pill {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
   background: #fff;
   border: 2px solid var(--citrus-orange);
-  border-radius: 12px;
-  padding: 4px 8px;
+  border-radius: 14px;
+  padding: 4px 10px;
 }
 
-.pill-icon {
-  width: 28px;
-  height: 28px;
+.pill-photo {
+  width: 32px;
+  height: 32px;
+}
+
+.pill-name {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 0.95rem;
 }
 
 .pill-remove-btn {
   border: none;
   background: transparent;
   cursor: pointer;
-  font-size: 1rem;
+  font-size: 1.1rem;
   color: var(--danger-coral);
-  min-width: 32px;
-  min-height: 32px;
+  font-weight: 900;
+  padding: 0 4px;
+}
+
+.shelf-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.shelf-fruit-card {
+  background: #fff;
+  border: 3px solid var(--citrus-wood);
+  border-radius: 16px;
+  padding: 8px 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+  transition: transform 0.15s;
+}
+
+.shelf-fruit-card:active {
+  transform: scale(0.94);
+}
+
+.shelf-icon {
+  width: 52px;
+  height: 52px;
+}
+
+.shelf-title {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 0.85rem;
+  margin-top: 4px;
+  color: var(--citrus-ink);
 }
 
 .empty-tip {
   color: var(--citrus-muted);
-  font-weight: 600;
+  font-weight: 700;
+  font-size: 0.95rem;
 }
 
 /* Garden */
@@ -659,19 +706,20 @@ body {
   background: #fff;
   border: 3px solid var(--citrus-wood);
   border-radius: 18px;
-  padding: 12px;
+  padding: 14px;
   box-shadow: var(--shadow);
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 10px;
-  min-height: 200px;
+  min-height: 220px;
 }
 
 .plot-title {
   font-family: var(--font-display);
   font-weight: 800;
-  font-size: 1.1rem;
+  font-size: 1.15rem;
+  color: var(--citrus-ink);
 }
 
 .plot-visual {
@@ -680,20 +728,22 @@ body {
   align-items: center;
   justify-content: center;
   width: 100%;
-  min-height: 100px;
+  min-height: 110px;
   background: #ecfccb;
-  border-radius: 14px;
+  border-radius: 16px;
   border: 2px solid #84cc16;
 }
 
 .plant-stage {
   text-align: center;
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1rem;
   color: var(--citrus-ink);
 }
 
 .plant-stage span {
-  font-size: 0.85rem;
+  font-size: 0.88rem;
   color: var(--citrus-muted);
 }
 
@@ -709,6 +759,627 @@ body {
   background: #38bdf8;
   border-color: #0284c7;
   color: #0c4a6e;
+}
+
+/* Memory Game */
+.memory-grid-easy {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  max-width: 380px;
+  margin: 0 auto;
+}
+
+.memory-grid-medium {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.memory-grid-hard {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  max-width: 580px;
+  margin: 0 auto;
+}
+
+.memory-card {
+  aspect-ratio: 1;
+  cursor: pointer;
+  perspective: 1000px;
+  min-height: 0;
+}
+
+.card-inner {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 18px;
+}
+
+.memory-card.flipped .card-inner {
+  transform: rotateY(180deg);
+}
+
+.card-front, .card-back {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  border-radius: 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 3px solid var(--citrus-wood);
+  box-shadow: var(--shadow);
+}
+
+.card-front {
+  background: linear-gradient(135deg, #fde047, #f59e0b);
+  color: #78350f;
+  font-family: var(--font-display);
+  font-size: 2.4rem;
+  font-weight: 900;
+}
+
+.card-back {
+  background: #ffffff;
+  transform: rotateY(180deg);
+  padding: 8px;
+}
+
+.card-icon-wrapper {
+  width: 70px;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-name {
+  font-family: var(--font-display);
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: var(--citrus-ink);
+  margin-top: 4px;
+}
+
+.difficulty-picker {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+.level-picker {
+  margin-bottom: 14px;
+}
+
+/* Portrait phones */
+@media (max-width: 599px) {
+  .app-layout {
+    padding: 8px 8px calc(var(--dock-h) + 12px);
+  }
+
+  .app-header {
+    padding: 8px 10px;
+    margin-bottom: 8px;
+  }
+
+  .difficulty-picker {
+    gap: 5px;
+  }
+
+  .diff-btn {
+    flex: 1;
+    min-width: 0;
+    padding: 6px 7px;
+    font-size: 0.76rem;
+    white-space: nowrap;
+  }
+
+  .match-container.level-hard .match-board-toddler {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+
+  .match-container.level-medium .match-board-toddler {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+  }
+
+  .match-board-toddler,
+  .match-tray-toddler,
+  .sorting-tray {
+    gap: 8px;
+  }
+
+  .match-slot {
+    border-radius: 16px;
+    padding: 6px;
+  }
+
+  .basket-card {
+    min-height: 112px;
+    padding: 6px;
+  }
+
+  .basket-title {
+    font-size: 0.84rem;
+  }
+
+  .sorting-tray {
+    padding: 8px;
+  }
+
+  .memory-grid-hard {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .memory-grid-easy,
+  .memory-grid-medium,
+  .memory-grid-hard {
+    gap: 8px;
+  }
+
+  .card-back {
+    padding: 4px;
+  }
+
+  .card-icon-wrapper {
+    width: min(60px, 72%);
+    height: min(60px, 72%);
+  }
+
+  .card-name {
+    font-size: 0.7rem;
+    line-height: 1.1;
+    text-align: center;
+  }
+}
+
+@media (max-width: 350px) {
+  .app-layout {
+    padding-bottom: calc(var(--dock-h) + 4px);
+  }
+
+  .brand-logo {
+    width: 36px;
+    height: 36px;
+  }
+
+  .brand-logo-img {
+    width: 34px;
+    height: 34px;
+  }
+
+  .brand-titles h1 {
+    font-size: 1rem;
+  }
+
+  .brand-subtitle {
+    display: none;
+  }
+
+  .header-controls {
+    gap: 4px;
+  }
+
+  .star-badge,
+  .btn-icon {
+    min-height: 38px;
+    height: 38px;
+  }
+
+  .star-badge {
+    padding: 4px 7px;
+  }
+
+  .btn-icon {
+    width: 38px;
+  }
+
+  .hint-line {
+    font-size: 0.82rem;
+  }
+
+  .game-panel {
+    padding: 8px;
+  }
+
+  .game-title-row,
+  .hint-line,
+  .level-picker {
+    margin-bottom: 8px;
+  }
+
+  .match-container.level-medium .match-board-toddler {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+  }
+
+  .match-container.level-medium .match-fruit,
+  .match-container.level-hard .match-fruit {
+    width: 56px;
+    height: 56px;
+  }
+
+  .match-container.level-hard .hint-line {
+    display: none;
+  }
+
+  .match-container.level-hard .match-board-toddler {
+    max-width: 220px;
+    margin-bottom: 8px;
+  }
+
+  .match-container.level-hard .match-fruit {
+    width: 48px;
+    height: 48px;
+  }
+
+  .match-container.level-medium .match-tray-toddler,
+  .match-container.level-hard .match-tray-toddler {
+    gap: 6px;
+    padding: 8px;
+  }
+
+  .memory-grid-easy,
+  .memory-grid-medium,
+  .memory-grid-hard {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .sorting-container.level-easy .sorting-fruit-item,
+  .sorting-container.level-medium .sorting-fruit-item {
+    width: 56px;
+    height: 56px;
+  }
+
+  .sorting-container.level-easy .hint-line,
+  .sorting-container.level-easy .level-picker,
+  .sorting-container.level-easy .baskets-grid,
+  .sorting-container.level-medium .hint-line,
+  .sorting-container.level-medium .level-picker,
+  .sorting-container.level-medium .baskets-grid,
+  .sorting-container.level-hard .hint-line,
+  .sorting-container.level-hard .level-picker,
+  .sorting-container.level-hard .baskets-grid {
+    margin-bottom: 8px;
+  }
+
+  .sorting-container.level-easy .basket-card,
+  .sorting-container.level-medium .basket-card {
+    min-height: 104px;
+  }
+
+  .sorting-container.level-hard .basket-card {
+    min-height: 96px;
+  }
+
+  .sorting-container.level-hard .sorting-tray {
+    gap: 4px;
+    padding: 8px;
+  }
+
+  .sorting-container.level-hard .sorting-fruit-item {
+    width: 48px;
+    height: 48px;
+  }
+}
+
+/* Wider portrait screens can use extra columns without shrinking tap targets. */
+@media (min-width: 360px) and (max-width: 699px) {
+  .memory-grid-medium,
+  .memory-grid-hard {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (min-width: 600px) and (orientation: portrait) {
+  .match-container.level-medium .match-board-toddler {
+    grid-template-columns: repeat(4, 1fr);
+    max-width: 680px;
+  }
+
+  .match-container.level-hard .match-board-toddler {
+    grid-template-columns: repeat(3, 1fr);
+    max-width: 640px;
+  }
+
+  .match-container.level-medium .match-tray-toddler,
+  .match-container.level-hard .match-tray-toddler {
+    max-width: 680px;
+  }
+
+  .memory-grid-medium {
+    grid-template-columns: repeat(4, 1fr);
+    max-width: 620px;
+  }
+}
+
+/* Landscape uses width first, including short phones and iPads. */
+@media (min-width: 560px) and (orientation: landscape) {
+  :root {
+    --dock-h: 60px;
+  }
+
+  .app-layout {
+    padding: 7px 10px calc(var(--dock-h) + 10px);
+  }
+
+  .app-header {
+    padding: 6px 12px;
+    margin-bottom: 7px;
+  }
+
+  .brand-logo,
+  .brand-logo-img {
+    width: 38px;
+    height: 38px;
+  }
+
+  .brand-titles h1 {
+    font-size: 1.15rem;
+  }
+
+  .brand-subtitle {
+    font-size: 0.7rem;
+  }
+
+  .star-badge,
+  .btn-icon {
+    min-height: 38px;
+    height: 38px;
+  }
+
+  .btn-icon {
+    width: 38px;
+  }
+
+  .game-dock {
+    padding: 4px 10px calc(4px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .dock-tab {
+    flex-direction: row;
+    min-height: 44px;
+    gap: 7px;
+    padding: 3px;
+  }
+
+  .dock-tab .tab-icon-svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .game-panel {
+    padding: 10px 14px;
+  }
+
+  .game-title-row {
+    margin-bottom: 4px;
+  }
+
+  .game-title-row h2 {
+    font-size: 1.15rem;
+  }
+
+  .hint-line {
+    margin-bottom: 6px;
+    font-size: 0.84rem;
+  }
+
+  .level-picker {
+    margin-bottom: 8px;
+  }
+
+  .match-container.level-medium,
+  .match-container.level-hard,
+  .match-container.level-easy,
+  .sorting-container.level-medium,
+  .sorting-container.level-hard,
+  .sorting-container.level-easy {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(230px, 0.85fr);
+    grid-template-areas:
+      "title title"
+      "hint levels"
+      "board tray";
+    column-gap: 18px;
+    align-items: start;
+  }
+
+  .level-medium .game-title-row,
+  .level-hard .game-title-row,
+  .level-easy .game-title-row { grid-area: title; }
+  .level-medium .hint-line,
+  .level-hard .hint-line,
+  .level-easy .hint-line { grid-area: hint; }
+  .level-medium .level-picker,
+  .level-hard .level-picker,
+  .level-easy .level-picker { grid-area: levels; }
+
+  .match-container.level-easy .match-board-toddler,
+  .match-container.level-medium .match-board-toddler,
+  .match-container.level-hard .match-board-toddler {
+    grid-area: board;
+    max-width: none;
+    margin: 0;
+  }
+
+  .match-container.level-medium .match-board-toddler {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .match-container.level-easy .match-board-toddler {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .match-container.level-hard .match-board-toddler {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .match-container.level-easy .match-tray-toddler,
+  .match-container.level-medium .match-tray-toddler,
+  .match-container.level-hard .match-tray-toddler {
+    grid-area: tray;
+    display: grid;
+    grid-template-columns: repeat(2, clamp(64px, 9vw, 86px));
+    max-width: none;
+    margin: 0;
+  }
+
+  .sorting-container.level-easy .baskets-grid,
+  .sorting-container.level-medium .baskets-grid,
+  .sorting-container.level-hard .baskets-grid {
+    grid-area: board;
+    margin: 0;
+  }
+
+  .sorting-container.level-easy .sorting-tray,
+  .sorting-container.level-medium .sorting-tray,
+  .sorting-container.level-hard .sorting-tray {
+    grid-area: tray;
+    display: grid;
+    grid-template-columns: repeat(3, clamp(64px, 8vw, 80px));
+    padding: 8px;
+  }
+
+  .memory-container.level-easy .memory-grid-easy {
+    grid-template-columns: repeat(4, 1fr);
+    max-width: 560px;
+  }
+
+  .memory-container.level-medium .memory-grid-medium {
+    grid-template-columns: repeat(4, 1fr);
+    max-width: 640px;
+  }
+
+  .memory-container.level-hard .memory-grid-hard {
+    grid-template-columns: repeat(6, 1fr);
+    max-width: 840px;
+  }
+}
+
+@media (min-width: 560px) and (orientation: landscape) and (max-height: 500px) {
+  .app-layout {
+    padding-bottom: calc(var(--dock-h) - 8px);
+  }
+
+  .brand-subtitle,
+  .hint-line {
+    display: none;
+  }
+
+  .game-panel {
+    padding: 5px 12px;
+  }
+
+  .match-container.level-easy,
+  .match-container.level-medium,
+  .match-container.level-hard,
+  .sorting-container.level-easy,
+  .sorting-container.level-medium,
+  .sorting-container.level-hard {
+    grid-template-areas:
+      "title levels"
+      "board tray";
+  }
+
+  .game-panel .diff-btn {
+    padding: 3px 4px;
+    font-size: 0.68rem;
+  }
+
+  .match-container.level-easy .match-tray-toddler,
+  .match-container.level-medium .match-tray-toddler,
+  .match-container.level-hard .match-tray-toddler {
+    gap: 5px;
+    padding: 6px;
+  }
+
+  .match-container.level-easy .match-tray-toddler {
+    grid-template-columns: repeat(2, 52px);
+  }
+
+  .match-container.level-medium .match-tray-toddler {
+    grid-template-columns: repeat(4, 52px);
+  }
+
+  .match-container.level-hard .match-tray-toddler {
+    grid-template-columns: repeat(3, 52px);
+  }
+
+  .match-container.level-easy .match-fruit,
+  .match-container.level-medium .match-fruit,
+  .match-container.level-hard .match-fruit {
+    width: 52px;
+    height: 52px;
+  }
+
+  .sorting-container.level-medium .sorting-fruit-item,
+  .sorting-container.level-hard .sorting-fruit-item {
+    width: 52px;
+    height: 52px;
+  }
+
+  .match-board-toddler,
+  .match-tray-toddler,
+  .sorting-tray,
+  .memory-grid-easy,
+  .memory-grid-medium,
+  .memory-grid-hard {
+    gap: 7px;
+  }
+
+  .match-container.level-hard .match-board-toddler {
+    max-width: 240px;
+    justify-self: center;
+  }
+
+  .basket-card {
+    min-height: 100px;
+  }
+
+  .memory-container.level-easy .memory-grid-easy,
+  .memory-container.level-medium .memory-grid-medium,
+  .memory-container.level-hard .memory-grid-hard {
+    max-width: 540px;
+  }
+
+  .memory-container.level-medium .memory-grid-medium {
+    grid-template-columns: repeat(8, 1fr);
+  }
+
+  .memory-container.level-hard .memory-grid-hard {
+    max-width: 460px;
+  }
+
+  .card-name {
+    font-size: 0.72rem;
+  }
+}
+
+.diff-btn {
+  background: #fff;
+  border: 2px solid var(--citrus-orange);
+  border-radius: 12px;
+  padding: 6px 12px;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 0.88rem;
+  cursor: pointer;
+  color: var(--citrus-muted);
+}
+
+.diff-btn.active {
+  background: var(--citrus-orange);
+  color: #fff;
 }
 
 /* Victory / overlays */
@@ -730,18 +1401,19 @@ body {
 .victory-modal {
   background: var(--panel);
   border: 3px solid var(--citrus-wood);
-  border-radius: 20px;
+  border-radius: 24px;
   box-shadow: var(--shadow);
   padding: 24px;
-  max-width: 360px;
+  max-width: 380px;
   width: 100%;
   text-align: center;
 }
 
 .victory-modal h2 {
   font-family: var(--font-display);
-  font-size: 1.5rem;
+  font-size: 1.6rem;
   margin-bottom: 8px;
+  color: var(--citrus-ink);
 }
 
 .victory-modal p {
@@ -772,7 +1444,7 @@ body {
   border: 3px solid var(--citrus-wood);
   border-radius: 18px;
   box-shadow: var(--shadow);
-  padding: 12px 16px;
+  padding: 10px 16px;
   display: flex;
   align-items: center;
   gap: 10px;
@@ -787,17 +1459,13 @@ body {
 }
 
 .sticker-toast .toast-fruit {
-  width: 48px;
-  height: 48px;
+  width: 44px;
+  height: 44px;
 }
 
-/* Feedback */
+/* Feedback Animations */
 .shake-red {
   animation: shake 0.5s ease;
-}
-
-.pulse-basket {
-  animation: bounce 0.5s ease;
 }
 
 .animate-bounce {

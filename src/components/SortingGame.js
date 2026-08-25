@@ -1,9 +1,8 @@
 import { FRUITS, SORT_CATEGORIES } from '../data/fruits.js';
-import { FRUIT_SVGS } from '../utils/icons.js';
-import { playSuccess, playError, playClick, playVictory, speak } from '../utils/audio.js';
+import { LEVELS, SORT_LEVELS } from '../data/levels.js';
+import { getFruitImg, UI_ICONS } from '../utils/icons.js';
+import { playSuccess, playError, playClick, playVictory, speakClip, speakFruit } from '../utils/audio.js';
 import confetti from 'canvas-confetti';
-
-const SORT_GROUPS = ['red', 'yellow', 'green'];
 
 export class SortingGame {
   constructor(container, options = {}) {
@@ -13,9 +12,11 @@ export class SortingGame {
     this.onUnlockFruit = options.onUnlockFruit || (() => {});
 
     this.activeFruitIndex = null;
+    this.levelIndex = 0;
+    this.activeGroups = [];
     this.fruitsToSort = [];
     this.sortedCount = 0;
-    this.basketItems = { red: [], yellow: [], green: [] };
+    this.basketItems = {};
 
     this.init();
   }
@@ -28,11 +29,22 @@ export class SortingGame {
   init() {
     this.activeFruitIndex = null;
     this.sortedCount = 0;
-    this.basketItems = { red: [], yellow: [], green: [] };
-    const pool = FRUITS.filter((f) => SORT_GROUPS.includes(f.colorGroup));
-    this.fruitsToSort = [...pool]
+    const level = SORT_LEVELS[this.levelIndex];
+    this.activeGroups = level.groups;
+    this.basketItems = Object.fromEntries(this.activeGroups.map((group) => [group, []]));
+
+    const pool = FRUITS.filter((fruit) => this.activeGroups.includes(fruit.colorGroup));
+    const starters = this.activeGroups.map((group) => {
+      const groupFruits = pool.filter((fruit) => fruit.colorGroup === group);
+      return groupFruits[Math.floor(Math.random() * groupFruits.length)];
+    });
+    const rest = pool
+      .filter((fruit) => !starters.some((starter) => starter.id === fruit.id))
+      .sort(() => 0.5 - Math.random());
+
+    this.fruitsToSort = [...starters, ...rest]
+      .slice(0, level.count)
       .sort(() => 0.5 - Math.random())
-      .slice(0, 6)
       .map((f) => ({ ...f, isSorted: false }));
     this.render();
   }
@@ -41,25 +53,32 @@ export class SortingGame {
     const isVi = this.lang === 'vi';
 
     this.container.innerHTML = `
-      <div class="sorting-container game-panel animate-fade-in">
+      <div class="sorting-container game-panel level-${LEVELS[this.levelIndex].id} animate-fade-in">
         <div class="game-title-row">
           <h2>${isVi ? 'Xếp màu' : 'Sort'}</h2>
           <span class="star-badge" style="min-height:36px;font-size:0.95rem;">${this.sortedCount}/${this.fruitsToSort.length}</span>
         </div>
-        <p class="hint-line">${isVi ? 'Cho trái cây vào giỏ cùng màu' : 'Put each fruit in the matching color basket'}</p>
+        <p class="hint-line">${isVi ? 'Bé hãy cho trái cây vào giỏ cùng màu nhé' : 'Put each fruit in the matching color basket'}</p>
 
-        <div class="baskets-grid">
-          ${SORT_GROUPS.map((catKey) => {
+        <div class="difficulty-picker level-picker">
+          ${LEVELS.map((level, index) => `
+            <button class="diff-btn ${index === this.levelIndex ? 'active' : ''}" data-level="${index}" type="button">
+              ${isVi ? level.nameVi : level.nameEn}
+            </button>`).join('')}
+        </div>
+
+        <div class="baskets-grid" style="--basket-count:${this.activeGroups.length}">
+          ${this.activeGroups.map((catKey) => {
             const cat = SORT_CATEGORIES[catKey];
             return `
               <div class="basket-card" data-group="${catKey}" style="border-color: ${cat.color}">
                 <div class="basket-swatch" style="background:${cat.color}"></div>
                 <span class="basket-title" style="color: ${cat.color}">
-                  ${isVi ? (catKey === 'red' ? 'Đỏ' : catKey === 'yellow' ? 'Vàng' : 'Xanh') : (catKey === 'red' ? 'Red' : catKey === 'yellow' ? 'Yellow' : 'Green')}
+                  ${isVi ? (catKey === 'red' ? 'Giỏ Đỏ' : catKey === 'yellow' ? 'Giỏ Vàng' : 'Giỏ Xanh') : (catKey === 'red' ? 'Red' : catKey === 'yellow' ? 'Yellow' : 'Green')}
                 </span>
                 <div class="basket-contents">
                   ${(this.basketItems[catKey] || [])
-                    .map((id) => `<div class="basket-item-pill">${FRUIT_SVGS[id] || ''}</div>`)
+                    .map((id) => `<div class="basket-item-pill animate-pop-in">${getFruitImg(id, 'pill-fruit-photo')}</div>`)
                     .join('')}
                 </div>
               </div>`;
@@ -73,7 +92,7 @@ export class SortingGame {
             <div class="sorting-fruit-item ${fruit.isSorted ? 'sorted-away' : ''} ${this.activeFruitIndex === idx ? 'selected-fruit' : ''}"
                  data-index="${idx}"
                  draggable="${!fruit.isSorted}">
-              <div class="fruit-icon-box">${FRUIT_SVGS[fruit.id] || ''}</div>
+              <div class="fruit-icon-box">${getFruitImg(fruit.id)}</div>
             </div>`
             )
             .join('')}
@@ -87,6 +106,14 @@ export class SortingGame {
   }
 
   bindEvents() {
+    this.container.querySelectorAll('[data-level]').forEach((button) => {
+      button.addEventListener('click', () => {
+        playClick();
+        this.levelIndex = Number(button.getAttribute('data-level'));
+        this.init();
+      });
+    });
+
     this.container.querySelectorAll('.sorting-fruit-item').forEach((item) => {
       item.addEventListener('click', () => {
         const idx = parseInt(item.getAttribute('data-index'), 10);
@@ -140,7 +167,7 @@ export class SortingGame {
       playError();
       basketEl.classList.add('shake-red');
       setTimeout(() => basketEl.classList.remove('shake-red'), 500);
-      speak(isVi ? 'Sonic Đù!' : 'Not that one!', this.lang);
+      speakClip('khen_lai', 'Not that one!', this.lang);
       return;
     }
 
@@ -150,7 +177,7 @@ export class SortingGame {
     this.activeFruitIndex = null;
     this.basketItems[basketGroup].push(fruit.id);
     this.onUnlockFruit(fruit.id);
-    speak(isVi ? fruit.name : fruit.nameEn, this.lang);
+    speakFruit(fruit, this.lang);
     this.render();
 
     if (this.sortedCount === this.fruitsToSort.length) {
@@ -170,11 +197,14 @@ export class SortingGame {
     victoryEl.className = 'victory-overlay animate-pop-in';
     victoryEl.innerHTML = `
       <div class="victory-modal">
-        <h2>${isVi ? 'Xếp xong!' : 'All sorted!'}</h2>
-        <p>${isVi ? 'Bé nhận 1 sao' : 'You earned a star'}</p>
+        <div class="victory-icon">${UI_ICONS.trophy || UI_ICONS.star}</div>
+        <h2>${isVi ? `Sonic xong màn ${this.levelIndex + 1}!` : `Level ${this.levelIndex + 1} complete!`}</h2>
+        <p>${isVi ? 'Bé nhận thêm 1 ngôi sao' : 'You earned a star'}</p>
         <div class="victory-actions">
           <button class="btn-primary" id="btn-sorting-play-again" type="button">
-            ${isVi ? 'Chơi tiếp' : 'Play again'}
+            ${this.levelIndex < LEVELS.length - 1
+              ? (isVi ? 'Màn tiếp theo' : 'Next level')
+              : (isVi ? 'Chơi lại từ đầu' : 'Play from start')}
           </button>
         </div>
       </div>
@@ -182,6 +212,7 @@ export class SortingGame {
 
     victoryEl.querySelector('#btn-sorting-play-again')?.addEventListener('click', () => {
       playClick();
+      this.levelIndex = this.levelIndex < LEVELS.length - 1 ? this.levelIndex + 1 : 0;
       this.init();
     });
   }

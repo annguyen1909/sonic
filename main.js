@@ -1,31 +1,25 @@
 import { MatchGame } from './src/components/MatchGame.js';
 import { SortingGame } from './src/components/SortingGame.js';
-import { BlenderGame } from './src/components/BlenderGame.js';
-import { GardenGame } from './src/components/GardenGame.js';
+import { MemoryGame } from './src/components/MemoryGame.js';
 import { toggleSound, playClick } from './src/utils/audio.js';
-import { FRUIT_SVGS, UI_ICONS } from './src/utils/icons.js';
-
-// ponytail: tạm tắt Ép + Vườn — xóa khỏi Set khi bật lại
-const DISABLED_MODES = new Set(['blender', 'garden']);
+import { getFruitImg, UI_ICONS } from './src/utils/icons.js';
 
 const I18N = {
   vi: {
     app_title: 'Thế Giới Trái Cây',
-    app_subtitle: 'Quầy nước ép vui',
+    app_subtitle: 'Góc chơi vui của bé Sonic',
     nav_match: 'Ghép',
     nav_sorting: 'Xếp',
-    nav_blender: 'Ép',
-    nav_garden: 'Vườn',
-    sticker_unlock: 'Sticker mới!'
+    nav_memory: 'Nhớ',
+    sticker_unlock: 'Đã mở khóa quả mới!'
   },
   en: {
     app_title: 'Fruit Wonderland',
-    app_subtitle: 'Juice stand fun',
+    app_subtitle: 'Sonic\'s Fun Playland',
     nav_match: 'Match',
     nav_sorting: 'Sort',
-    nav_blender: 'Blend',
-    nav_garden: 'Garden',
-    sticker_unlock: 'New sticker!'
+    nav_memory: 'Memory',
+    sticker_unlock: 'New fruit unlocked!'
   }
 };
 
@@ -38,7 +32,7 @@ class App {
     const savedUnlocked = localStorage.getItem('fw_unlocked');
     this.unlockedFruitIds = savedUnlocked
       ? new Set(JSON.parse(savedUnlocked))
-      : new Set(['watermelon', 'lemon', 'apple']);
+      : new Set(['banana', 'watermelon', 'apple']);
 
     this.activeMode = 'match';
     this.currentComponent = null;
@@ -50,15 +44,19 @@ class App {
 
   init() {
     const logoEl = document.getElementById('brand-svg-logo');
-    if (logoEl) logoEl.innerHTML = FRUIT_SVGS.watermelon;
+    if (logoEl) logoEl.innerHTML = getFruitImg('watermelon', 'brand-logo-img');
 
     const starIconEl = document.getElementById('star-icon-container');
     if (starIconEl) starIconEl.innerHTML = UI_ICONS.star;
 
-    document.getElementById('tab-icon-match').innerHTML = UI_ICONS.navMatch || UI_ICONS.navMemory;
-    document.getElementById('tab-icon-sorting').innerHTML = UI_ICONS.navSorting;
-    document.getElementById('tab-icon-blender').innerHTML = UI_ICONS.navBlender;
-    document.getElementById('tab-icon-garden').innerHTML = UI_ICONS.navGarden;
+    const matchTabIcon = document.getElementById('tab-icon-match');
+    if (matchTabIcon) matchTabIcon.innerHTML = UI_ICONS.navMatch;
+
+    const sortingTabIcon = document.getElementById('tab-icon-sorting');
+    if (sortingTabIcon) sortingTabIcon.innerHTML = UI_ICONS.navSorting;
+
+    const memoryTabIcon = document.getElementById('tab-icon-memory');
+    if (memoryTabIcon) memoryTabIcon.innerHTML = UI_ICONS.navMemory;
 
     this.updateHeaderUI();
     this.bindEvents();
@@ -69,7 +67,6 @@ class App {
     document.querySelectorAll('.dock-tab').forEach((tab) => {
       tab.addEventListener('click', () => {
         const mode = tab.getAttribute('data-mode');
-        if (DISABLED_MODES.has(mode)) return;
         playClick();
         this.switchMode(mode);
       });
@@ -114,8 +111,11 @@ class App {
     const starCountEl = document.getElementById('global-star-count');
     if (starCountEl) starCountEl.textContent = this.totalStars;
 
-    document.getElementById('app-title-text').textContent = dict.app_title;
-    document.getElementById('app-subtitle-text').textContent = dict.app_subtitle;
+    const titleEl = document.getElementById('app-title-text');
+    if (titleEl) titleEl.textContent = dict.app_title;
+
+    const subtitleEl = document.getElementById('app-subtitle-text');
+    if (subtitleEl) subtitleEl.textContent = dict.app_subtitle;
 
     document.querySelectorAll('.tab-label').forEach((el) => {
       const key = el.getAttribute('data-key');
@@ -147,7 +147,7 @@ class App {
 
     const dict = I18N[this.lang];
     toast.innerHTML = `
-      <div class="toast-fruit">${FRUIT_SVGS[fruitId] || ''}</div>
+      <div class="toast-fruit">${getFruitImg(fruitId, 'toast-photo')}</div>
       <span>${dict.sticker_unlock}</span>
       <span>${UI_ICONS.star}</span>
     `;
@@ -158,7 +158,6 @@ class App {
   }
 
   switchMode(mode) {
-    if (DISABLED_MODES.has(mode)) mode = 'match';
     this.activeMode = mode;
 
     document.querySelectorAll('.dock-tab').forEach((tab) => {
@@ -178,11 +177,8 @@ class App {
       case 'sorting':
         this.currentComponent = new SortingGame(this.container, commonOptions);
         break;
-      case 'blender':
-        this.currentComponent = new BlenderGame(this.container, commonOptions);
-        break;
-      case 'garden':
-        this.currentComponent = new GardenGame(this.container, commonOptions);
+      case 'memory':
+        this.currentComponent = new MemoryGame(this.container, commonOptions);
         break;
       default:
         this.currentComponent = new MatchGame(this.container, commonOptions);
