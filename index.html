@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Thế Giới Trái Cây - Bé Sonic</title>
+  <title>Thế Giới Trái Cây & Con Vật - Bé Sonic</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Be+Vietnam+Pro:wght@500;600;700;800&display=swap" rel="stylesheet">
@@ -15,7 +15,7 @@
       <div class="brand">
         <span class="brand-logo" id="brand-svg-logo"></span>
         <div class="brand-titles">
-          <h1 id="app-title-text">Thế Giới Trái Cây</h1>
+          <h1 id="app-title-text">Thế Giới Vui Học</h1>
           <span class="brand-subtitle" id="app-subtitle-text">Góc chơi vui của bé Sonic</span>
         </div>
       </div>
@@ -35,17 +35,21 @@
     <main class="app-main" id="game-view-container"></main>
 
     <nav class="game-dock" aria-label="Games">
-      <button class="dock-tab active" data-mode="match" type="button">
+      <button class="dock-tab active" data-mode="learn" type="button">
+        <span class="tab-icon-svg" id="tab-icon-learn"></span>
+        <span class="tab-label" data-key="nav_learn">Học Vui</span>
+      </button>
+      <button class="dock-tab" data-mode="match" type="button">
         <span class="tab-icon-svg" id="tab-icon-match"></span>
-        <span class="tab-label" data-key="nav_match">Ghép</span>
+        <span class="tab-label" data-key="nav_match">Ghép Hình</span>
       </button>
       <button class="dock-tab" data-mode="sorting" type="button">
         <span class="tab-icon-svg" id="tab-icon-sorting"></span>
-        <span class="tab-label" data-key="nav_sorting">Xếp</span>
+        <span class="tab-label" data-key="nav_sorting">Xếp Màu</span>
       </button>
       <button class="dock-tab" data-mode="memory" type="button">
         <span class="tab-icon-svg" id="tab-icon-memory"></span>
-        <span class="tab-label" data-key="nav_memory">Nhớ</span>
+        <span class="tab-label" data-key="nav_memory">Lật Thẻ</span>
       </button>
     </nav>
   </div>

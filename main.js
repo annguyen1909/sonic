@@ -1,3 +1,4 @@
+import { LearnGame } from './src/components/LearnGame.js';
 import { MatchGame } from './src/components/MatchGame.js';
 import { SortingGame } from './src/components/SortingGame.js';
 import { MemoryGame } from './src/components/MemoryGame.js';
@@ -6,20 +7,22 @@ import { getFruitImg, UI_ICONS } from './src/utils/icons.js';
 
 const I18N = {
   vi: {
-    app_title: 'Thế Giới Trái Cây',
+    app_title: 'Thế Giới Vui Học',
     app_subtitle: 'Góc chơi vui của bé Sonic',
-    nav_match: 'Ghép',
-    nav_sorting: 'Xếp',
-    nav_memory: 'Nhớ',
-    sticker_unlock: 'Đã mở khóa quả mới!'
+    nav_learn: 'Học Vui',
+    nav_match: 'Ghép Hình',
+    nav_sorting: 'Xếp Màu',
+    nav_memory: 'Lật Thẻ',
+    sticker_unlock: 'Đã mở khóa huy hiệu mới!'
   },
   en: {
-    app_title: 'Fruit Wonderland',
-    app_subtitle: 'Sonic\'s Fun Playland',
+    app_title: 'Sonic Learning Land',
+    app_subtitle: 'Fun & Learn for Sonic',
+    nav_learn: 'Learn',
     nav_match: 'Match',
     nav_sorting: 'Sort',
     nav_memory: 'Memory',
-    sticker_unlock: 'New fruit unlocked!'
+    sticker_unlock: 'New badge unlocked!'
   }
 };
 
@@ -34,7 +37,7 @@ class App {
       ? new Set(JSON.parse(savedUnlocked))
       : new Set(['banana', 'watermelon', 'apple']);
 
-    this.activeMode = 'match';
+    this.activeMode = 'learn';
     this.currentComponent = null;
     this.container = document.getElementById('game-view-container');
     this.toastTimer = null;
@@ -44,10 +47,13 @@ class App {
 
   init() {
     const logoEl = document.getElementById('brand-svg-logo');
-    if (logoEl) logoEl.innerHTML = getFruitImg('watermelon', 'brand-logo-img');
+    if (logoEl) logoEl.innerHTML = `<img src="/images/animals/duck.jpg" alt="Logo" class="brand-logo-img" />`;
 
     const starIconEl = document.getElementById('star-icon-container');
     if (starIconEl) starIconEl.innerHTML = UI_ICONS.star;
+
+    const learnTabIcon = document.getElementById('tab-icon-learn');
+    if (learnTabIcon) learnTabIcon.innerHTML = UI_ICONS.navLearn;
 
     const matchTabIcon = document.getElementById('tab-icon-match');
     if (matchTabIcon) matchTabIcon.innerHTML = UI_ICONS.navMatch;
@@ -171,6 +177,9 @@ class App {
     };
 
     switch (mode) {
+      case 'learn':
+        this.currentComponent = new LearnGame(this.container, commonOptions);
+        break;
       case 'match':
         this.currentComponent = new MatchGame(this.container, commonOptions);
         break;
@@ -181,7 +190,7 @@ class App {
         this.currentComponent = new MemoryGame(this.container, commonOptions);
         break;
       default:
-        this.currentComponent = new MatchGame(this.container, commonOptions);
+        this.currentComponent = new LearnGame(this.container, commonOptions);
     }
   }
 }

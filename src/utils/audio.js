@@ -314,9 +314,15 @@ function pickTeacherVoice(langCode) {
 /**
  * Cheerful, clear, warm young preschool teacher voice
  */
-export function speak(text, lang = 'vi-VN') {
-  if (!soundEnabled) return;
-  if (!('speechSynthesis' in window)) return;
+export function speak(text, lang = 'vi-VN', onEnded = null) {
+  if (!soundEnabled) {
+    if (onEnded) onEnded();
+    return;
+  }
+  if (!('speechSynthesis' in window)) {
+    if (onEnded) onEnded();
+    return;
+  }
 
   try {
     window.speechSynthesis.cancel();
@@ -324,9 +330,9 @@ export function speak(text, lang = 'vi-VN') {
     const langCode = lang === 'en' ? 'en-US' : 'vi-VN';
     utterance.lang = langCode;
 
-    // Cheerful, upbeat kindergarten teacher tone (slightly higher pitch, clear natural pace)
-    utterance.rate = 0.92;
-    utterance.pitch = 1.18;
+    // Natural warm toddler pace — pitch 1.0 preserves natural vocal formants without robotic distortion
+    utterance.rate = 0.9;
+    utterance.pitch = 1.0;
     utterance.volume = 1.0;
 
     const teacherVoice = pickTeacherVoice(langCode);
@@ -334,22 +340,73 @@ export function speak(text, lang = 'vi-VN') {
       utterance.voice = teacherVoice;
     }
 
+    if (onEnded) {
+      utterance.onend = () => onEnded();
+      utterance.onerror = () => onEnded();
+    }
+
     window.speechSynthesis.speak(utterance);
   } catch (e) {
     console.warn('Speech synthesis error:', e);
+    if (onEnded) onEnded();
+  }
+}
+
+export function playAudioClip(clipId, fallbackText = '', lang = 'vi', onEnded = null) {
+  if (!soundEnabled) {
+    if (onEnded) onEnded();
+    return;
+  }
+
+  activeVoiceAudio?.pause();
+  window.speechSynthesis?.cancel();
+
+  if (lang === 'vi') {
+    const audio = new Audio(`/audio/${clipId}.mp3`);
+    activeVoiceAudio = audio;
+
+    let endedCalled = false;
+    const triggerEnded = () => {
+      if (endedCalled) return;
+      endedCalled = true;
+      if (onEnded) onEnded();
+    };
+
+    audio.addEventListener('ended', triggerEnded, { once: true });
+    audio.addEventListener('error', () => {
+      if (fallbackText) {
+        speak(fallbackText, lang, triggerEnded);
+      } else {
+        triggerEnded();
+      }
+    }, { once: true });
+
+    audio.play().catch(() => {
+      if (fallbackText) {
+        speak(fallbackText, lang, triggerEnded);
+      } else {
+        triggerEnded();
+      }
+    });
+  } else {
+    if (fallbackText) {
+      speak(fallbackText, lang, onEnded);
+    } else if (onEnded) {
+      onEnded();
+    }
   }
 }
 
 export function speakClip(clipId, fallbackText = '', lang = 'vi') {
-  speakClipSequence([clipId], fallbackText, lang);
+  playAudioClip(clipId, fallbackText, lang);
 }
 
 export function speakClipSequence(clipIds, fallbackText = '', lang = 'vi') {
   if (!soundEnabled) return;
 
-  const validIds = clipIds.filter((id) => VOICE_SCRIPTS[id]);
-  const text = fallbackText || validIds.map((id) => VOICE_SCRIPTS[id]).join(' ');
-  if (lang === 'en' || validIds.length !== clipIds.length) {
+  const validIds = clipIds;
+  const text = fallbackText || validIds.map((id) => VOICE_SCRIPTS[id] || id).join(' ');
+  if (lang === 'en') {
     speak(text, lang);
     return;
   }
@@ -361,11 +418,13 @@ export function speakClipSequence(clipIds, fallbackText = '', lang = 'vi') {
     if (index >= validIds.length) return;
     activeVoiceAudio = new Audio(`/audio/${validIds[index]}.mp3`);
     activeVoiceAudio.addEventListener('ended', () => playAt(index + 1), { once: true });
-    activeVoiceAudio.play().catch(() => speak(text, lang));
+    activeVoiceAudio.play().catch(() => {
+      if (index === 0 && text) speak(text, lang);
+    });
   };
   playAt(0);
 }
 
 export function speakFruit(fruit, lang = 'vi') {
-  speakClip(fruit.id, lang === 'vi' ? VOICE_SCRIPTS[fruit.id] : fruit.nameEn, lang);
+  speakClip(fruit.id, lang === 'vi' ? (VOICE_SCRIPTS[fruit.id] || fruit.name) : fruit.nameEn, lang);
 }
