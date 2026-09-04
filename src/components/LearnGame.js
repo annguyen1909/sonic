@@ -178,10 +178,10 @@ export class LearnGame {
       <div class="vehicle-sub-header">
         <div class="vehicle-mode-toggle">
           <button class="vehicle-mode-btn ${this.vehicleMode === 'quiz' ? 'active' : ''}" id="btn-vehicle-mode-quiz" type="button">
-            🎯 ${isVi ? 'Đố Tiếng Còi' : 'Siren Quiz'}
+            🚨 ${isVi ? 'Đố Tiếng Còi' : 'Siren Quiz'}
           </button>
           <button class="vehicle-mode-btn ${this.vehicleMode === 'explore' ? 'active' : ''}" id="btn-vehicle-mode-explore" type="button">
-            🎺 ${isVi ? 'Bấm Còi Tự Do' : 'Explore Sirens'}
+            🏎️ ${isVi ? 'Gara Khám Phá' : 'Toy Garage'}
           </button>
         </div>
       </div>
@@ -189,20 +189,24 @@ export class LearnGame {
       ${
         this.vehicleMode === 'quiz'
           ? `
-            <div class="quiz-hero-card">
-              <div class="quiz-question-bar">
-                <button class="btn-repeat-voice" id="btn-repeat-voice" type="button" title="Nghe lại">
-                  ${UI_ICONS.speaker}
-                </button>
-                <span class="quiz-question-text">
-                  ${isVi ? current.question : current.questionEn}
-                </span>
+            <div class="quiz-hero-card vehicle-quiz-theme">
+              <div class="emergency-beacon-bar animate-pop-in">
+                <div class="emergency-light red-light"></div>
+                <div class="emergency-station-title">
+                  <span class="station-icon">🚨</span>
+                  <span class="station-text">${isVi ? current.question : current.questionEn}</span>
+                </div>
+                <div class="emergency-light blue-light"></div>
               </div>
 
-              <div class="vehicle-quiz-siren-box animate-pop-in" id="vehicle-siren-beacon">
-                <div class="siren-beacon-icon">🚨</div>
-                <div class="siren-beacon-pulse"></div>
-                <span class="siren-instruction">${isVi ? 'Bé nghe tiếng còi hú rồi chọn xe nhé!' : 'Listen to siren and pick the vehicle!'}</span>
+              <div class="vehicle-siren-stage" id="vehicle-siren-stage">
+                <button class="btn-giant-siren-replay" id="btn-repeat-voice" type="button">
+                  <div class="siren-big-icon">📢</div>
+                  <div class="siren-pulse-waves">
+                    <span></span><span></span><span></span>
+                  </div>
+                  <span class="siren-replay-label">${isVi ? 'Chạm để nghe lại còi hú' : 'Tap to hear siren again'}</span>
+                </button>
               </div>
 
               <div class="vehicle-quiz-options-grid">
@@ -211,11 +215,13 @@ export class LearnGame {
                   if (!veh) return '';
                   const isCorrectAnswer = vehId === current.correctVehicleId;
                   return `
-                    <button class="btn-vehicle-card ${this.isAnswered && isCorrectAnswer ? 'correct' : ''}" data-vehicle-id="${veh.id}" type="button">
+                    <button class="btn-vehicle-toy-card ${this.isAnswered && isCorrectAnswer ? 'correct-winner' : ''}" data-vehicle-id="${veh.id}" style="--veh-color: ${veh.color};" type="button">
                       <div class="vehicle-card-img-wrap">
+                        <div class="headlight-beam left-beam"></div>
+                        <div class="headlight-beam right-beam"></div>
                         <img src="${veh.image}" alt="${veh.name}" class="vehicle-card-img" />
                       </div>
-                      <span class="vehicle-card-name">${isVi ? veh.name : veh.nameEn}</span>
+                      <span class="vehicle-toy-name">${isVi ? veh.name : veh.nameEn}</span>
                     </button>
                   `;
                 }).join('')}
@@ -225,15 +231,18 @@ export class LearnGame {
           : `
             <div class="vehicle-explore-grid animate-fade-in">
               ${VEHICLES_DATA.map((veh) => `
-                <div class="vehicle-explore-card" data-vehicle-id="${veh.id}" style="border-top: 5px solid ${veh.color};">
-                  <div class="vehicle-explore-img-wrap">
-                    <img src="${veh.image}" alt="${veh.name}" class="vehicle-explore-img" />
+                <div class="toy-garage-card" data-vehicle-id="${veh.id}" style="--veh-theme: ${veh.color};">
+                  <div class="toy-card-badge">${isVi ? veh.name : veh.nameEn}</div>
+                  <div class="toy-garage-img-wrap">
+                    <div class="headlight-beam left-beam"></div>
+                    <div class="headlight-beam right-beam"></div>
+                    <img src="${veh.image}" alt="${veh.name}" class="toy-vehicle-img" />
                   </div>
-                  <div class="vehicle-explore-info">
-                    <h3 class="vehicle-explore-title">${isVi ? veh.name : veh.nameEn}</h3>
-                    <p class="vehicle-explore-desc">${isVi ? veh.description : veh.descriptionEn}</p>
-                    <button class="btn-honk-horn" type="button">
-                      🔊 ${isVi ? 'Bấm Còi Hú' : 'Sound Siren'}
+                  <div class="toy-garage-controls">
+                    <span class="toy-vehicle-desc">${isVi ? veh.description : veh.descriptionEn}</span>
+                    <button class="btn-toy-honk" type="button">
+                      <span class="honk-icon">🎺</span>
+                      <span>${isVi ? 'Bấm Còi Hú' : 'Sound Siren'}</span>
                     </button>
                   </div>
                 </div>
@@ -245,31 +254,47 @@ export class LearnGame {
   }
 
   renderAnimalSoundArea(current, isVi) {
-    return `
-      <div class="quiz-hero-card">
-        <div class="quiz-question-bar">
-          <button class="btn-repeat-voice" id="btn-repeat-voice" type="button" title="Nghe lại">
-            ${UI_ICONS.speaker}
-          </button>
-          <span class="quiz-question-text">
-            ${isVi ? current.question : current.questionEn}
-          </span>
-        </div>
+    const speechSounds = {
+      dog: 'Gâu gâu!',
+      cat: 'Meo meo!',
+      duck: 'Cạp cạp!',
+      elephant: 'Tu tu!',
+      rooster: 'Ò ó o o!',
+      cow: 'Ùm bò bò!'
+    };
 
-        <div class="animal-sound-hero-box animate-pop-in" id="animal-sound-hero">
-          <div class="sound-wave-icon">🎵 🐶 🐱 🦆</div>
-          <div class="sound-wave-label">${isVi ? 'Bé hãy lắng nghe tiếng kêu thật kỹ nhé!' : 'Listen to the animal sound!'}</div>
+    return `
+      <div class="quiz-hero-card animal-sound-stage-theme">
+        <div class="magic-speaker-stage animate-pop-in" id="magic-speaker-box">
+          <div class="magic-music-notes">
+            <span class="note-1">🎵</span>
+            <span class="note-2">🎶</span>
+            <span class="note-3">⭐</span>
+          </div>
+          <button class="btn-magic-speaker" id="btn-repeat-voice" type="button" title="Chạm để nghe lại">
+            <div class="speaker-cone">
+              <div class="speaker-inner-rim">
+                <span class="speaker-emoji">📻</span>
+              </div>
+            </div>
+            <div class="speaker-stage-info">
+              <span class="speaker-question-text">${isVi ? current.question : current.questionEn}</span>
+              <span class="speaker-tap-hint">👉 ${isVi ? 'Chạm loa để nghe lại tiếng kêu' : 'Tap radio to listen again'}</span>
+            </div>
+          </button>
         </div>
 
         <div class="animal-sound-options-grid">
           ${current.options.map((opt) => {
             const isCorrect = opt.id === current.correctAnimalId;
+            const animalBubble = speechSounds[opt.id] || 'Ú òa!';
             return `
-              <button class="btn-animal-sound-card ${this.isAnswered && isCorrect ? 'correct' : ''}" data-animal-id="${opt.id}" type="button">
+              <button class="btn-animal-toy-card ${this.isAnswered && isCorrect ? 'correct-winner' : ''}" data-animal-id="${opt.id}" type="button">
+                <div class="animal-speech-bubble ${this.isAnswered && isCorrect ? 'show' : ''}">${animalBubble}</div>
                 <div class="animal-sound-img-wrap">
                   <img src="${opt.image}" alt="${opt.name}" class="animal-sound-img" />
                 </div>
-                <span class="animal-sound-name">${isVi ? opt.name : opt.nameEn}</span>
+                <span class="animal-toy-name">${isVi ? opt.name : opt.nameEn}</span>
               </button>
             `;
           }).join('')}
@@ -375,15 +400,15 @@ export class LearnGame {
 
     // Vehicle explore click to honk & speak
     if (this.activeTab === 'vehicle' && this.vehicleMode === 'explore') {
-      this.container.querySelectorAll('.vehicle-explore-card').forEach((card) => {
+      this.container.querySelectorAll('.toy-garage-card').forEach((card) => {
         card.addEventListener('click', () => {
           const vehId = card.getAttribute('data-vehicle-id');
           const veh = VEHICLES_DATA.find((v) => v.id === vehId);
           if (!veh) return;
           this.clearTimers();
           stopAllAudio();
-          card.classList.add('animate-bounce');
-          setTimeout(() => card.classList.remove('animate-bounce'), 600);
+          card.classList.add('headlights-on', 'car-vroom-action');
+          setTimeout(() => card.classList.remove('headlights-on', 'car-vroom-action'), 1200);
           playAudioClipSequence([veh.sfx, veh.voiceIntro], isVi ? veh.name : veh.nameEn, this.lang);
         });
       });
@@ -391,7 +416,7 @@ export class LearnGame {
 
     // Vehicle quiz answer selection
     if (this.activeTab === 'vehicle' && this.vehicleMode === 'quiz') {
-      this.container.querySelectorAll('.btn-vehicle-card').forEach((btn) => {
+      this.container.querySelectorAll('.btn-vehicle-toy-card').forEach((btn) => {
         btn.addEventListener('click', () => {
           if (this.isAnswered) return;
           const vehId = btn.getAttribute('data-vehicle-id');
@@ -403,7 +428,7 @@ export class LearnGame {
 
     // Animal sound quiz answer selection
     if (this.activeTab === 'animal_sound') {
-      this.container.querySelectorAll('.btn-animal-sound-card').forEach((btn) => {
+      this.container.querySelectorAll('.btn-animal-toy-card').forEach((btn) => {
         btn.addEventListener('click', () => {
           if (this.isAnswered) return;
           const animalId = btn.getAttribute('data-animal-id');

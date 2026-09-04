@@ -366,8 +366,8 @@ export const VEHICLE_QUIZZES = [
     audioPromptKey: 'quiz_vehicle_firetruck',
     praiseKey: 'praise_firetruck',
     sfx: 'sfx_firetruck',
-    question: 'Đố Sonic tìm xe cứu hỏa màu đỏ chữa cháy nè!',
-    questionEn: 'Find the red fire truck!',
+    question: 'U u u... Còi xe cứu hỏa màu đỏ chữa cháy ở đâu nè?',
+    questionEn: 'Where is the red fire truck fighting fires?',
     options: ['firetruck', 'police', 'ambulance']
   },
   {
@@ -376,7 +376,7 @@ export const VEHICLE_QUIZZES = [
     audioPromptKey: 'quiz_vehicle_police',
     praiseKey: 'praise_police',
     sfx: 'sfx_police',
-    question: 'Đố Sonic đâu là xe cảnh sát hú còi pí po?',
+    question: 'Pí po pí po! Xe cảnh sát bắt kẻ xấu đâu rồi Sonic ơi?',
     questionEn: 'Where is the police car with siren?',
     options: ['police', 'firetruck', 'train']
   },
@@ -386,7 +386,7 @@ export const VEHICLE_QUIZZES = [
     audioPromptKey: 'quiz_vehicle_ambulance',
     praiseKey: 'praise_ambulance',
     sfx: 'sfx_ambulance',
-    question: 'Đố Sonic đâu là xe cấp cứu chở bác sĩ nè?',
+    question: 'E e e... Xe cứu thương chở bác sĩ ở đâu nè bé?',
     questionEn: 'Where is the emergency ambulance?',
     options: ['ambulance', 'police', 'excavator']
   },
@@ -396,7 +396,7 @@ export const VEHICLE_QUIZZES = [
     audioPromptKey: 'quiz_vehicle_train',
     praiseKey: 'praise_train',
     sfx: 'sfx_train',
-    question: 'Đố Sonic đâu là tàu hỏa tu tu xình xịch?',
+    question: 'Tu tu xình xịch! Đoàn tàu hỏa dài thật dài đâu nè?',
     questionEn: 'Where is the choo-choo train?',
     options: ['train', 'airplane', 'firetruck']
   },
@@ -406,7 +406,7 @@ export const VEHICLE_QUIZZES = [
     audioPromptKey: 'quiz_vehicle_airplane',
     praiseKey: 'praise_airplane',
     sfx: 'sfx_airplane',
-    question: 'Đố Sonic đâu là máy bay bay vù vù trên trời?',
+    question: 'Vù vù vù! Máy bay bay vút trên mây xanh đâu rồi ta?',
     questionEn: 'Where is the airplane flying high?',
     options: ['airplane', 'train', 'police']
   },
@@ -416,8 +416,8 @@ export const VEHICLE_QUIZZES = [
     audioPromptKey: 'quiz_vehicle_excavator',
     praiseKey: 'praise_excavator',
     sfx: 'sfx_excavator',
-    question: 'Đố Sonic đâu là máy xúc múc đất rầm rầm?',
-    questionEn: 'Where is the yellow excavator?',
+    question: 'Rầm rầm xình xịch! Máy xúc xúc đất công trường ở đâu nè?',
+    questionEn: 'Where is the yellow excavator digging?',
     options: ['excavator', 'firetruck', 'ambulance']
   }
 ];
@@ -429,12 +429,12 @@ export const ANIMAL_SOUND_QUIZZES = [
     sfx: 'sfx_dog',
     audioPromptKey: 'quiz_sound_dog',
     praiseKey: 'praise_sound_dog',
-    question: 'Ai đang sủa gâu gâu đấy nhỉ? Đố Sonic tìm bạn ấy nè!',
-    questionEn: 'Who is barking? Find the cute dog!',
+    question: 'Gâu gâu gâu! Ai đang gọi bé Sonic đi chơi đấy nhỉ?',
+    questionEn: 'Woof woof! Who is barking to play with Sonic?',
     options: [
-      { id: 'dog', name: 'Con Chó', nameEn: 'Dog', image: '/images/animals/dog.jpg' },
-      { id: 'cat', name: 'Con Mèo', nameEn: 'Cat', image: '/images/animals/cat.jpg' },
-      { id: 'duck', name: 'Con Vịt', nameEn: 'Duck', image: '/images/animals/duck.jpg' }
+      { id: 'dog', name: 'Bạn Cún', nameEn: 'Dog', image: '/images/animals/dog.jpg' },
+      { id: 'cat', name: 'Bạn Mèo', nameEn: 'Cat', image: '/images/animals/cat.jpg' },
+      { id: 'duck', name: 'Bạn Vịt', nameEn: 'Duck', image: '/images/animals/duck.jpg' }
     ]
   },
   {
@@ -443,12 +443,12 @@ export const ANIMAL_SOUND_QUIZZES = [
     sfx: 'sfx_cat',
     audioPromptKey: 'quiz_sound_cat',
     praiseKey: 'praise_sound_cat',
-    question: 'Ai đang kêu meo meo đáng yêu đấy nhỉ?',
-    questionEn: 'Who is meowing? Find the kitten!',
+    question: 'Meo meo meo! Ai đang làm nũng đòi Sonic vuốt ve nè?',
+    questionEn: 'Meow meow! Who wants a cuddle?',
     options: [
-      { id: 'cat', name: 'Con Mèo', nameEn: 'Cat', image: '/images/animals/cat.jpg' },
-      { id: 'rabbit', name: 'Con Thỏ', nameEn: 'Rabbit', image: '/images/animals/rabbit.jpg' },
-      { id: 'dog', name: 'Con Chó', nameEn: 'Dog', image: '/images/animals/dog.jpg' }
+      { id: 'cat', name: 'Bạn Mèo', nameEn: 'Cat', image: '/images/animals/cat.jpg' },
+      { id: 'rabbit', name: 'Bạn Thỏ', nameEn: 'Rabbit', image: '/images/animals/rabbit.jpg' },
+      { id: 'dog', name: 'Bạn Cún', nameEn: 'Dog', image: '/images/animals/dog.jpg' }
     ]
   },
   {
@@ -457,12 +457,12 @@ export const ANIMAL_SOUND_QUIZZES = [
     sfx: 'sfx_duck',
     audioPromptKey: 'quiz_sound_duck',
     praiseKey: 'praise_sound_duck',
-    question: 'Ai đang bơi dưới ao kêu cạp cạp đấy nhỉ?',
-    questionEn: 'Who is quacking? Find the yellow duck!',
+    question: 'Cạp cạp cạp! Ai đang bơi dưới nước tìm bé Sonic nè?',
+    questionEn: 'Quack quack! Who is swimming in the pond?',
     options: [
-      { id: 'duck', name: 'Con Vịt', nameEn: 'Duck', image: '/images/animals/duck.jpg' },
-      { id: 'rooster', name: 'Con Gà', nameEn: 'Rooster', image: '/images/animals/rooster.jpg' },
-      { id: 'cat', name: 'Con Mèo', nameEn: 'Cat', image: '/images/animals/cat.jpg' }
+      { id: 'duck', name: 'Bạn Vịt', nameEn: 'Duck', image: '/images/animals/duck.jpg' },
+      { id: 'rooster', name: 'Chú Gà Trống', nameEn: 'Rooster', image: '/images/animals/rooster.jpg' },
+      { id: 'cat', name: 'Bạn Mèo', nameEn: 'Cat', image: '/images/animals/cat.jpg' }
     ]
   },
   {
@@ -471,12 +471,12 @@ export const ANIMAL_SOUND_QUIZZES = [
     sfx: 'sfx_elephant',
     audioPromptKey: 'quiz_sound_elephant',
     praiseKey: 'praise_sound_elephant',
-    question: 'Ai có chiếc vòi dài đang rống thật to đấy nhỉ?',
-    questionEn: 'Who has a long trunk? Find the elephant!',
+    question: 'Ò ó ooo! Chú voi con có chiếc vòi dài chào bé Sonic nè!',
+    questionEn: 'Who has a long trunk? Meet the elephant!',
     options: [
-      { id: 'elephant', name: 'Con Voi', nameEn: 'Elephant', image: '/images/animals/elephant.jpg' },
-      { id: 'cow', name: 'Con Bò', nameEn: 'Cow', image: '/images/animals/cow.jpg' },
-      { id: 'dog', name: 'Con Chó', nameEn: 'Dog', image: '/images/animals/dog.jpg' }
+      { id: 'elephant', name: 'Bạn Voi', nameEn: 'Elephant', image: '/images/animals/elephant.jpg' },
+      { id: 'cow', name: 'Bạn Bò', nameEn: 'Cow', image: '/images/animals/cow.jpg' },
+      { id: 'dog', name: 'Bạn Cún', nameEn: 'Dog', image: '/images/animals/dog.jpg' }
     ]
   },
   {
@@ -485,12 +485,12 @@ export const ANIMAL_SOUND_QUIZZES = [
     sfx: 'sfx_rooster',
     audioPromptKey: 'quiz_sound_rooster',
     praiseKey: 'praise_sound_rooster',
-    question: 'Ai đang gáy ò ó o gọi bé dậy buổi sáng nè?',
-    questionEn: 'Who is crowing cock-a-doodle-doo?',
+    question: 'Ò ó o o! Ai gáy vang gọi bé Sonic dậy tập thể dục nè?',
+    questionEn: 'Cock-a-doodle-doo! Who wakes Sonic up in the morning?',
     options: [
-      { id: 'rooster', name: 'Con Gà', nameEn: 'Rooster', image: '/images/animals/rooster.jpg' },
-      { id: 'duck', name: 'Con Vịt', nameEn: 'Duck', image: '/images/animals/duck.jpg' },
-      { id: 'cat', name: 'Con Mèo', nameEn: 'Cat', image: '/images/animals/cat.jpg' }
+      { id: 'rooster', name: 'Chú Gà Trống', nameEn: 'Rooster', image: '/images/animals/rooster.jpg' },
+      { id: 'duck', name: 'Bạn Vịt', nameEn: 'Duck', image: '/images/animals/duck.jpg' },
+      { id: 'cat', name: 'Bạn Mèo', nameEn: 'Cat', image: '/images/animals/cat.jpg' }
     ]
   },
   {
@@ -499,12 +499,12 @@ export const ANIMAL_SOUND_QUIZZES = [
     sfx: 'sfx_cow',
     audioPromptKey: 'quiz_sound_cow',
     praiseKey: 'praise_sound_cow',
-    question: 'Ai đang kêu ùm bò cho bé ly sữa thơm nè?',
-    questionEn: 'Who is mooing? Find the dairy cow!',
+    question: 'Ùm bò bò! Ai cho bé ly sữa thơm béo ngậy nè?',
+    questionEn: 'Moo moo! Who gives yummy milk to Sonic?',
     options: [
-      { id: 'cow', name: 'Con Bò', nameEn: 'Cow', image: '/images/animals/cow.jpg' },
-      { id: 'elephant', name: 'Con Voi', nameEn: 'Elephant', image: '/images/animals/elephant.jpg' },
-      { id: 'rabbit', name: 'Con Thỏ', nameEn: 'Rabbit', image: '/images/animals/rabbit.jpg' }
+      { id: 'cow', name: 'Bạn Bò Sữa', nameEn: 'Cow', image: '/images/animals/cow.jpg' },
+      { id: 'elephant', name: 'Bạn Voi', nameEn: 'Elephant', image: '/images/animals/elephant.jpg' },
+      { id: 'rabbit', name: 'Bạn Thỏ', nameEn: 'Rabbit', image: '/images/animals/rabbit.jpg' }
     ]
   }
 ];
