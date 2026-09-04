@@ -1,7 +1,7 @@
 import { FRUITS } from '../data/fruits.js';
 import { LEVELS, MATCH_COUNTS } from '../data/levels.js';
 import { getFruitImg, UI_ICONS } from '../utils/icons.js';
-import { playSuccess, playError, playClick, playVictory, speakClip, speakFruit } from '../utils/audio.js';
+import { playSuccess, playError, playClick, playVictory, speakClip, speakFruit, stopAllAudio } from '../utils/audio.js';
 import { prepareRoundedDragImage, setRoundedDragImage } from '../utils/dragPreview.js';
 import confetti from 'canvas-confetti';
 
@@ -216,4 +216,9 @@ export class MatchGame {
       this.init();
     });
   }
+
+  destroy() {
+    stopAllAudio();
+  }
 }
+

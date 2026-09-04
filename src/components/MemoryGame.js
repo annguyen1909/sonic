@@ -1,7 +1,7 @@
 import { FRUITS } from '../data/fruits.js';
 import { LEVELS, MEMORY_PAIRS } from '../data/levels.js';
 import { getFruitImg, UI_ICONS } from '../utils/icons.js';
-import { playFlip, playSuccess, playError, playVictory, playClick, speakFruit } from '../utils/audio.js';
+import { playFlip, playSuccess, playError, playVictory, playClick, speakFruit, stopAllAudio } from '../utils/audio.js';
 import confetti from 'canvas-confetti';
 
 export class MemoryGame {
@@ -207,4 +207,9 @@ export class MemoryGame {
       });
     }
   }
+
+  destroy() {
+    stopAllAudio();
+  }
 }
+

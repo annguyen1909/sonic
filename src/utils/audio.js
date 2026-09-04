@@ -39,9 +39,7 @@ export function toggleSound(enabled) {
     soundEnabled = !soundEnabled;
   }
   if (!soundEnabled) {
-    activeVoiceAudio?.pause();
-    activeVoiceAudio = null;
-    window.speechSynthesis?.cancel();
+    stopAllAudio();
   }
   return soundEnabled;
 }
@@ -352,14 +350,33 @@ export function speak(text, lang = 'vi-VN', onEnded = null) {
   }
 }
 
+let currentSequenceId = 0;
+
+export function stopAllAudio() {
+  currentSequenceId++;
+  if (activeVoiceAudio) {
+    try {
+      activeVoiceAudio.pause();
+      activeVoiceAudio.currentTime = 0;
+      activeVoiceAudio.src = '';
+    } catch (e) {}
+    activeVoiceAudio = null;
+  }
+  if (window.speechSynthesis) {
+    try {
+      window.speechSynthesis.cancel();
+    } catch (e) {}
+  }
+}
+
 export function playAudioClip(clipId, fallbackText = '', lang = 'vi', onEnded = null) {
   if (!soundEnabled) {
     if (onEnded) onEnded();
     return;
   }
 
-  activeVoiceAudio?.pause();
-  window.speechSynthesis?.cancel();
+  stopAllAudio();
+  const mySeqId = currentSequenceId;
 
   if (lang === 'vi') {
     const audio = new Audio(`/audio/${clipId}.mp3`);
@@ -367,6 +384,7 @@ export function playAudioClip(clipId, fallbackText = '', lang = 'vi', onEnded = 
 
     let endedCalled = false;
     const triggerEnded = () => {
+      if (mySeqId !== currentSequenceId) return;
       if (endedCalled) return;
       endedCalled = true;
       if (onEnded) onEnded();
@@ -374,6 +392,7 @@ export function playAudioClip(clipId, fallbackText = '', lang = 'vi', onEnded = 
 
     audio.addEventListener('ended', triggerEnded, { once: true });
     audio.addEventListener('error', () => {
+      if (mySeqId !== currentSequenceId) return;
       if (fallbackText) {
         speak(fallbackText, lang, triggerEnded);
       } else {
@@ -382,6 +401,7 @@ export function playAudioClip(clipId, fallbackText = '', lang = 'vi', onEnded = 
     }, { once: true });
 
     audio.play().catch(() => {
+      if (mySeqId !== currentSequenceId) return;
       if (fallbackText) {
         speak(fallbackText, lang, triggerEnded);
       } else {
@@ -401,30 +421,66 @@ export function speakClip(clipId, fallbackText = '', lang = 'vi') {
   playAudioClip(clipId, fallbackText, lang);
 }
 
-export function speakClipSequence(clipIds, fallbackText = '', lang = 'vi') {
-  if (!soundEnabled) return;
-
-  const validIds = clipIds;
-  const text = fallbackText || validIds.map((id) => VOICE_SCRIPTS[id] || id).join(' ');
-  if (lang === 'en') {
-    speak(text, lang);
+export function playAudioClipSequence(clipIds, fallbackText = '', lang = 'vi', onEnded = null) {
+  if (!soundEnabled) {
+    if (onEnded) onEnded();
     return;
   }
 
-  activeVoiceAudio?.pause();
-  window.speechSynthesis?.cancel();
+  const validIds = Array.isArray(clipIds) ? clipIds.filter(Boolean) : [clipIds];
+  if (!validIds.length) {
+    if (onEnded) onEnded();
+    return;
+  }
+
+  stopAllAudio();
+  const mySeqId = currentSequenceId;
+
+  if (lang === 'en') {
+    speak(fallbackText, lang, onEnded);
+    return;
+  }
 
   const playAt = (index) => {
-    if (index >= validIds.length) return;
-    activeVoiceAudio = new Audio(`/audio/${validIds[index]}.mp3`);
-    activeVoiceAudio.addEventListener('ended', () => playAt(index + 1), { once: true });
-    activeVoiceAudio.play().catch(() => {
-      if (index === 0 && text) speak(text, lang);
+    if (mySeqId !== currentSequenceId) return;
+
+    if (index >= validIds.length) {
+      if (onEnded) onEnded();
+      return;
+    }
+
+    const clipId = validIds[index];
+    const audio = new Audio(`/audio/${clipId}.mp3`);
+    activeVoiceAudio = audio;
+
+    audio.addEventListener('ended', () => {
+      if (mySeqId !== currentSequenceId) return;
+      playAt(index + 1);
+    }, { once: true });
+
+    audio.addEventListener('error', () => {
+      if (mySeqId !== currentSequenceId) return;
+      playAt(index + 1);
+    }, { once: true });
+
+    audio.play().catch(() => {
+      if (mySeqId !== currentSequenceId) return;
+      if (fallbackText && index === 0) {
+        speak(fallbackText, lang, onEnded);
+      } else {
+        playAt(index + 1);
+      }
     });
   };
+
   playAt(0);
+}
+
+export function speakClipSequence(clipIds, fallbackText = '', lang = 'vi') {
+  playAudioClipSequence(clipIds, fallbackText, lang);
 }
 
 export function speakFruit(fruit, lang = 'vi') {
   speakClip(fruit.id, lang === 'vi' ? (VOICE_SCRIPTS[fruit.id] || fruit.name) : fruit.nameEn, lang);
 }
+

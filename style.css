@@ -1812,3 +1812,329 @@ body {
   background: #86efac;
   border-color: #15803d;
 }
+
+/* Vehicle & Siren Sub-Game */
+.vehicle-sub-header {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
+.vehicle-mode-toggle {
+  display: inline-flex;
+  background: #ffffff;
+  border: 2px solid var(--citrus-wood);
+  border-radius: 14px;
+  padding: 4px;
+  gap: 6px;
+  box-shadow: 0 2px 0 rgba(0,0,0,0.06);
+}
+
+.vehicle-mode-btn {
+  background: transparent;
+  border: none;
+  border-radius: 10px;
+  padding: 6px 14px;
+  font-family: var(--font-display);
+  font-size: 0.92rem;
+  font-weight: 800;
+  color: var(--citrus-muted);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.vehicle-mode-btn.active {
+  background: #ffedd5;
+  color: var(--citrus-ink);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+}
+
+.vehicle-quiz-siren-box {
+  width: 100%;
+  background: linear-gradient(135deg, #fef2f2, #fff1f2);
+  border: 3px dashed #ef4444;
+  border-radius: 20px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  position: relative;
+  overflow: hidden;
+}
+
+.siren-beacon-icon {
+  font-size: 2.6rem;
+  animation: pulseBeacon 1.2s infinite ease-in-out;
+}
+
+@keyframes pulseBeacon {
+  0%, 100% { transform: scale(1); filter: drop-shadow(0 0 6px rgba(239,68,68,0.4)); }
+  50% { transform: scale(1.18); filter: drop-shadow(0 0 16px rgba(239,68,68,0.8)); }
+}
+
+.siren-instruction {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #991b1b;
+  text-align: center;
+}
+
+.vehicle-quiz-options-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  width: 100%;
+}
+
+.btn-vehicle-card {
+  background: #ffffff;
+  border: 3px solid var(--citrus-wood);
+  border-radius: 20px;
+  padding: 10px 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+  transition: transform 0.15s ease;
+}
+
+.btn-vehicle-card:active {
+  transform: translateY(2px);
+}
+
+.btn-vehicle-card.correct {
+  background: #86efac;
+  border-color: #15803d;
+}
+
+.vehicle-card-img-wrap {
+  width: 100%;
+  aspect-ratio: 1;
+  background: #ffffff;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.vehicle-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+
+.vehicle-card-name {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--citrus-ink);
+  text-align: center;
+}
+
+/* Explore Grid */
+.vehicle-explore-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 12px;
+  width: 100%;
+  max-width: 820px;
+}
+
+.vehicle-explore-card {
+  background: #ffffff;
+  border: 3px solid var(--citrus-wood);
+  border-radius: 22px;
+  padding: 12px;
+  box-shadow: var(--shadow);
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+.vehicle-explore-card:active {
+  transform: scale(0.98);
+}
+
+.vehicle-explore-img-wrap {
+  width: 90px;
+  height: 90px;
+  flex-shrink: 0;
+  border-radius: 14px;
+  overflow: hidden;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vehicle-explore-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  mix-blend-mode: multiply;
+}
+
+.vehicle-explore-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.vehicle-explore-title {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--citrus-ink);
+  margin: 0;
+}
+
+.vehicle-explore-desc {
+  font-size: 0.84rem;
+  color: var(--citrus-muted);
+  font-weight: 600;
+  margin: 0;
+}
+
+.btn-honk-horn {
+  background: var(--citrus-yellow);
+  border: 2px solid var(--citrus-wood);
+  border-radius: 12px;
+  padding: 5px 10px;
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: var(--citrus-ink);
+  cursor: pointer;
+  align-self: flex-start;
+  margin-top: 4px;
+}
+
+/* Animal Sound Hero & Grid */
+.animal-sound-hero-box {
+  width: 100%;
+  background: linear-gradient(135deg, #eff6ff, #f0fdf4);
+  border: 3px dashed #3b82f6;
+  border-radius: 20px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.sound-wave-icon {
+  font-size: 2.2rem;
+  animation: bounceNote 1.4s infinite ease-in-out;
+}
+
+@keyframes bounceNote {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+.sound-wave-label {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #1e40af;
+  text-align: center;
+}
+
+.animal-sound-options-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  width: 100%;
+}
+
+.btn-animal-sound-card {
+  background: #ffffff;
+  border: 3px solid var(--citrus-wood);
+  border-radius: 20px;
+  padding: 10px 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+  transition: transform 0.15s ease;
+}
+
+.btn-animal-sound-card:active {
+  transform: translateY(2px);
+}
+
+.btn-animal-sound-card.correct {
+  background: #86efac;
+  border-color: #15803d;
+}
+
+.animal-sound-img-wrap {
+  width: 100%;
+  aspect-ratio: 1;
+  background: #ffffff;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.animal-sound-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+
+.animal-sound-name {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--citrus-ink);
+  text-align: center;
+}
+
+@media (max-width: 480px) {
+  .vehicle-quiz-options-grid,
+  .animal-sound-options-grid {
+    gap: 6px;
+  }
+
+  .btn-vehicle-card,
+  .btn-animal-sound-card {
+    padding: 6px 4px;
+  }
+
+  .vehicle-card-name,
+  .animal-sound-name {
+    font-size: 0.82rem;
+  }
+
+  .learn-category-tabs {
+    gap: 4px;
+  }
+
+  .learn-tab-btn {
+    padding: 6px 10px;
+    font-size: 0.85rem;
+  }
+}
+

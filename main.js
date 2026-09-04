@@ -2,7 +2,7 @@ import { LearnGame } from './src/components/LearnGame.js';
 import { MatchGame } from './src/components/MatchGame.js';
 import { SortingGame } from './src/components/SortingGame.js';
 import { MemoryGame } from './src/components/MemoryGame.js';
-import { toggleSound, playClick } from './src/utils/audio.js';
+import { toggleSound, playClick, stopAllAudio } from './src/utils/audio.js';
 import { getFruitImg, UI_ICONS } from './src/utils/icons.js';
 
 const I18N = {
@@ -90,6 +90,7 @@ class App {
     if (langBtn) {
       langBtn.addEventListener('click', () => {
         playClick();
+        stopAllAudio();
         this.lang = this.lang === 'vi' ? 'en' : 'vi';
         localStorage.setItem('fw_lang', this.lang);
         this.updateHeaderUI();
@@ -98,6 +99,13 @@ class App {
         }
       });
     }
+
+    // Stop all audio when tab is backgrounded or device is locked
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        stopAllAudio();
+      }
+    });
   }
 
   updateHeaderUI() {
@@ -164,6 +172,15 @@ class App {
   }
 
   switchMode(mode) {
+    if (this.currentComponent?.destroy) {
+      try {
+        this.currentComponent.destroy();
+      } catch (e) {
+        console.warn('Error destroying component:', e);
+      }
+    }
+    stopAllAudio();
+
     this.activeMode = mode;
 
     document.querySelectorAll('.dock-tab').forEach((tab) => {

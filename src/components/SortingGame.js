@@ -1,7 +1,7 @@
 import { FRUITS, SORT_CATEGORIES } from '../data/fruits.js';
 import { LEVELS, SORT_LEVELS } from '../data/levels.js';
 import { getFruitImg, UI_ICONS } from '../utils/icons.js';
-import { playSuccess, playError, playClick, playVictory, speakClip, speakFruit } from '../utils/audio.js';
+import { playSuccess, playError, playClick, playVictory, speakClip, speakFruit, stopAllAudio } from '../utils/audio.js';
 import confetti from 'canvas-confetti';
 
 export class SortingGame {
@@ -216,4 +216,9 @@ export class SortingGame {
       this.init();
     });
   }
+
+  destroy() {
+    stopAllAudio();
+  }
 }
+

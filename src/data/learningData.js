@@ -289,3 +289,223 @@ export const COLOR_QUIZZES = [
     praiseEn: 'Hooray! The grapes are Purple!'
   }
 ];
+
+export const VEHICLES_DATA = [
+  {
+    id: 'firetruck',
+    name: 'Xe Cứu Hỏa',
+    nameEn: 'Fire Truck',
+    image: '/images/vehicles/firetruck.jpg',
+    sfx: 'sfx_firetruck',
+    voiceIntro: 'vehicle_firetruck',
+    description: 'Chữa cháy dập lửa',
+    descriptionEn: 'Fights fires',
+    color: '#ef4444'
+  },
+  {
+    id: 'police',
+    name: 'Xe Cảnh Sát',
+    nameEn: 'Police Car',
+    image: '/images/vehicles/police_car.jpg',
+    sfx: 'sfx_police',
+    voiceIntro: 'vehicle_police',
+    description: 'Tuần tra an toàn',
+    descriptionEn: 'Keeps us safe',
+    color: '#3b82f6'
+  },
+  {
+    id: 'ambulance',
+    name: 'Xe Cứu Thương',
+    nameEn: 'Ambulance',
+    image: '/images/vehicles/ambulance.jpg',
+    sfx: 'sfx_ambulance',
+    voiceIntro: 'vehicle_ambulance',
+    description: 'Cấp cứu bệnh nhân',
+    descriptionEn: 'Emergency care',
+    color: '#dc2626'
+  },
+  {
+    id: 'train',
+    name: 'Tàu Hỏa',
+    nameEn: 'Train',
+    image: '/images/vehicles/train.jpg',
+    sfx: 'sfx_train',
+    voiceIntro: 'vehicle_train',
+    description: 'Tu tu xình xịch',
+    descriptionEn: 'Choo choo train',
+    color: '#b91c1c'
+  },
+  {
+    id: 'airplane',
+    name: 'Máy Bay',
+    nameEn: 'Airplane',
+    image: '/images/vehicles/airplane.jpg',
+    sfx: 'sfx_airplane',
+    voiceIntro: 'vehicle_airplane',
+    description: 'Bay trên bầu trời',
+    descriptionEn: 'Flies high',
+    color: '#0284c7'
+  },
+  {
+    id: 'excavator',
+    name: 'Máy Xúc',
+    nameEn: 'Excavator',
+    image: '/images/vehicles/excavator.jpg',
+    sfx: 'sfx_excavator',
+    voiceIntro: 'vehicle_excavator',
+    description: 'Múc đất xây nhà',
+    descriptionEn: 'Digs ground',
+    color: '#eab308'
+  }
+];
+
+export const VEHICLE_QUIZZES = [
+  {
+    id: 'quiz_vehicle_firetruck',
+    correctVehicleId: 'firetruck',
+    audioPromptKey: 'quiz_vehicle_firetruck',
+    praiseKey: 'praise_firetruck',
+    sfx: 'sfx_firetruck',
+    question: 'Đố Sonic tìm xe cứu hỏa màu đỏ chữa cháy nè!',
+    questionEn: 'Find the red fire truck!',
+    options: ['firetruck', 'police', 'ambulance']
+  },
+  {
+    id: 'quiz_vehicle_police',
+    correctVehicleId: 'police',
+    audioPromptKey: 'quiz_vehicle_police',
+    praiseKey: 'praise_police',
+    sfx: 'sfx_police',
+    question: 'Đố Sonic đâu là xe cảnh sát hú còi pí po?',
+    questionEn: 'Where is the police car with siren?',
+    options: ['police', 'firetruck', 'train']
+  },
+  {
+    id: 'quiz_vehicle_ambulance',
+    correctVehicleId: 'ambulance',
+    audioPromptKey: 'quiz_vehicle_ambulance',
+    praiseKey: 'praise_ambulance',
+    sfx: 'sfx_ambulance',
+    question: 'Đố Sonic đâu là xe cấp cứu chở bác sĩ nè?',
+    questionEn: 'Where is the emergency ambulance?',
+    options: ['ambulance', 'police', 'excavator']
+  },
+  {
+    id: 'quiz_vehicle_train',
+    correctVehicleId: 'train',
+    audioPromptKey: 'quiz_vehicle_train',
+    praiseKey: 'praise_train',
+    sfx: 'sfx_train',
+    question: 'Đố Sonic đâu là tàu hỏa tu tu xình xịch?',
+    questionEn: 'Where is the choo-choo train?',
+    options: ['train', 'airplane', 'firetruck']
+  },
+  {
+    id: 'quiz_vehicle_airplane',
+    correctVehicleId: 'airplane',
+    audioPromptKey: 'quiz_vehicle_airplane',
+    praiseKey: 'praise_airplane',
+    sfx: 'sfx_airplane',
+    question: 'Đố Sonic đâu là máy bay bay vù vù trên trời?',
+    questionEn: 'Where is the airplane flying high?',
+    options: ['airplane', 'train', 'police']
+  },
+  {
+    id: 'quiz_vehicle_excavator',
+    correctVehicleId: 'excavator',
+    audioPromptKey: 'quiz_vehicle_excavator',
+    praiseKey: 'praise_excavator',
+    sfx: 'sfx_excavator',
+    question: 'Đố Sonic đâu là máy xúc múc đất rầm rầm?',
+    questionEn: 'Where is the yellow excavator?',
+    options: ['excavator', 'firetruck', 'ambulance']
+  }
+];
+
+export const ANIMAL_SOUND_QUIZZES = [
+  {
+    id: 'sound_dog',
+    correctAnimalId: 'dog',
+    sfx: 'sfx_dog',
+    audioPromptKey: 'quiz_sound_dog',
+    praiseKey: 'praise_sound_dog',
+    question: 'Ai đang sủa gâu gâu đấy nhỉ? Đố Sonic tìm bạn ấy nè!',
+    questionEn: 'Who is barking? Find the cute dog!',
+    options: [
+      { id: 'dog', name: 'Con Chó', nameEn: 'Dog', image: '/images/animals/dog.jpg' },
+      { id: 'cat', name: 'Con Mèo', nameEn: 'Cat', image: '/images/animals/cat.jpg' },
+      { id: 'duck', name: 'Con Vịt', nameEn: 'Duck', image: '/images/animals/duck.jpg' }
+    ]
+  },
+  {
+    id: 'sound_cat',
+    correctAnimalId: 'cat',
+    sfx: 'sfx_cat',
+    audioPromptKey: 'quiz_sound_cat',
+    praiseKey: 'praise_sound_cat',
+    question: 'Ai đang kêu meo meo đáng yêu đấy nhỉ?',
+    questionEn: 'Who is meowing? Find the kitten!',
+    options: [
+      { id: 'cat', name: 'Con Mèo', nameEn: 'Cat', image: '/images/animals/cat.jpg' },
+      { id: 'rabbit', name: 'Con Thỏ', nameEn: 'Rabbit', image: '/images/animals/rabbit.jpg' },
+      { id: 'dog', name: 'Con Chó', nameEn: 'Dog', image: '/images/animals/dog.jpg' }
+    ]
+  },
+  {
+    id: 'sound_duck',
+    correctAnimalId: 'duck',
+    sfx: 'sfx_duck',
+    audioPromptKey: 'quiz_sound_duck',
+    praiseKey: 'praise_sound_duck',
+    question: 'Ai đang bơi dưới ao kêu cạp cạp đấy nhỉ?',
+    questionEn: 'Who is quacking? Find the yellow duck!',
+    options: [
+      { id: 'duck', name: 'Con Vịt', nameEn: 'Duck', image: '/images/animals/duck.jpg' },
+      { id: 'rooster', name: 'Con Gà', nameEn: 'Rooster', image: '/images/animals/rooster.jpg' },
+      { id: 'cat', name: 'Con Mèo', nameEn: 'Cat', image: '/images/animals/cat.jpg' }
+    ]
+  },
+  {
+    id: 'sound_elephant',
+    correctAnimalId: 'elephant',
+    sfx: 'sfx_elephant',
+    audioPromptKey: 'quiz_sound_elephant',
+    praiseKey: 'praise_sound_elephant',
+    question: 'Ai có chiếc vòi dài đang rống thật to đấy nhỉ?',
+    questionEn: 'Who has a long trunk? Find the elephant!',
+    options: [
+      { id: 'elephant', name: 'Con Voi', nameEn: 'Elephant', image: '/images/animals/elephant.jpg' },
+      { id: 'cow', name: 'Con Bò', nameEn: 'Cow', image: '/images/animals/cow.jpg' },
+      { id: 'dog', name: 'Con Chó', nameEn: 'Dog', image: '/images/animals/dog.jpg' }
+    ]
+  },
+  {
+    id: 'sound_rooster',
+    correctAnimalId: 'rooster',
+    sfx: 'sfx_rooster',
+    audioPromptKey: 'quiz_sound_rooster',
+    praiseKey: 'praise_sound_rooster',
+    question: 'Ai đang gáy ò ó o gọi bé dậy buổi sáng nè?',
+    questionEn: 'Who is crowing cock-a-doodle-doo?',
+    options: [
+      { id: 'rooster', name: 'Con Gà', nameEn: 'Rooster', image: '/images/animals/rooster.jpg' },
+      { id: 'duck', name: 'Con Vịt', nameEn: 'Duck', image: '/images/animals/duck.jpg' },
+      { id: 'cat', name: 'Con Mèo', nameEn: 'Cat', image: '/images/animals/cat.jpg' }
+    ]
+  },
+  {
+    id: 'sound_cow',
+    correctAnimalId: 'cow',
+    sfx: 'sfx_cow',
+    audioPromptKey: 'quiz_sound_cow',
+    praiseKey: 'praise_sound_cow',
+    question: 'Ai đang kêu ùm bò cho bé ly sữa thơm nè?',
+    questionEn: 'Who is mooing? Find the dairy cow!',
+    options: [
+      { id: 'cow', name: 'Con Bò', nameEn: 'Cow', image: '/images/animals/cow.jpg' },
+      { id: 'elephant', name: 'Con Voi', nameEn: 'Elephant', image: '/images/animals/elephant.jpg' },
+      { id: 'rabbit', name: 'Con Thỏ', nameEn: 'Rabbit', image: '/images/animals/rabbit.jpg' }
+    ]
+  }
+];
+
